@@ -1,18 +1,18 @@
-# type Subscription {
-#   id: ID!
-#   topic: String!
-#   roleId: Int!
-#   channelId: Int!
-#   createdAt: String!
-#   updatedAt: String!
+type Agreement {
+  id: ID!
+  topic: String!
+  roleId: Int!
+  channelId: Int!
+  createdAt: String!
+  updatedAt: String!
 
-# }
+}
 
-# input NewSubscription {
-#   topic: String!
-#   roleId: Int!
-#   channelId: Int!
-# }
+input NewAgreement {
+  topic: String!
+  roleId: Int!
+  channelId: Int!
+}
 
 type Domain {
   id: ID!
@@ -304,6 +304,7 @@ type Query {
  stages: [Stage!]!
  classes: [Class!]!
  domains: [Domain!]!
+ agreements: [Agreement!]!
 
 #  subscriptions: [Subscription!]!
  
@@ -327,6 +328,7 @@ type Mutation {
  createStage(input: NewStage!): Stage!
  createClass(input: NewClass!): Class!
  createDomain(input: NewDomain!): Domain!
+ createAgreement(input: NewAgreement!): Agreement!
  
 #  createSubscription(input: NewSubscription!): Subscription!
 

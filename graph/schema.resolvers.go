@@ -452,6 +452,32 @@ func (r *mutationResolver) CreateDomain(ctx context.Context, input model.NewDoma
 	return &domain, nil
 }
 
+// CreateAgreement is the resolver for the createAgreement field.
+func (r *mutationResolver) CreateAgreement(ctx context.Context, input model.NewAgreement) (*model.Agreement, error) {
+	agreement := model.Agreement{
+		Topic:     input.Topic,
+		RoleID:    input.RoleID,
+		ChannelID: input.ChannelID,
+	}
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	_, error := db.Model(&agreement).Insert()
+
+	if error != nil {
+		return nil, fmt.Errorf("error inserting new Agreement: %v", error)
+	}
+
+	return &agreement, nil
+}
+
 // Movies is the resolver for the movies field.
 func (r *queryResolver) Movies(ctx context.Context) ([]*model.Movie, error) {
 	var movies []*model.Movie
@@ -807,6 +833,27 @@ func (r *queryResolver) Domains(ctx context.Context) ([]*model.Domain, error) {
 	}
 
 	return domains, nil
+}
+
+// Agreements is the resolver for the agreements field.
+func (r *queryResolver) Agreements(ctx context.Context) ([]*model.Agreement, error) {
+	var agreements []*model.Agreement
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	error := db.Model(&agreements).Select()
+	if error != nil {
+		return nil, error
+	}
+
+	return agreements, nil
 }
 
 // Mutation returns MutationResolver implementation.

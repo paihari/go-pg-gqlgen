@@ -195,6 +195,17 @@ mutation createDomain {
   }
 }
 
+mutation createAgreement {
+  createAgreement(input: {
+    topic: "security"
+    roleId: 1
+    channelId: 1
+    
+  }) {
+    id
+  }
+}
+
 
 
 
@@ -317,7 +328,13 @@ query getDomains {
  }
 }
 
-
+query getAgreements {
+ agreements {
+     id
+     topic
+     
+ }
+}
 
 
 

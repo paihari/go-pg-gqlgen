@@ -2,6 +2,15 @@
 
 package model
 
+type Agreement struct {
+	ID        string `json:"id"`
+	Topic     string `json:"topic"`
+	RoleID    int    `json:"roleId"`
+	ChannelID int    `json:"channelId"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
 type Alert struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
@@ -99,6 +108,12 @@ type Movie struct {
 	Title       string `json:"title"`
 	URL         string `json:"url"`
 	ReleaseDate string `json:"releaseDate"`
+}
+
+type NewAgreement struct {
+	Topic     string `json:"topic"`
+	RoleID    int    `json:"roleId"`
+	ChannelID int    `json:"channelId"`
 }
 
 type NewAlert struct {

@@ -123,6 +123,15 @@ CREATE TABLE subscriptions (
     PRIMARY KEY(id)
 );
 
+CREATE TABLE agreements (
+    id SERIAL,
+    topic VARCHAR(32),
+    role_id INTEGER REFERENCES roles(id) DEFAULT 1,
+    channel_id INTEGER REFERENCES channels(id) ON DELETE CASCADE DEFAULT 1,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
 
 
 
@@ -229,6 +238,11 @@ INSERT INTO channel(name, description, class, stage, service, address, alert_id,
 INSERT INTO subscriptions(topic, role_id, channel_id) VALUES ('operation', 1, 2); 
 INSERT INTO subscriptions(topic, role_id, channel_id) VALUES ('governance', 1, 1);
 INSERT INTO subscriptions(topic, role_id, channel_id) VALUES ('cost', 1, 1);
+
+-- many to many tabble that subscirbes admin operators to notification channels
+INSERT INTO agreements(topic, role_id, channel_id) VALUES ('operation', 1, 2); 
+INSERT INTO agreements(topic, role_id, channel_id) VALUES ('governance', 1, 1);
+INSERT INTO agreements(topic, role_id, channel_id) VALUES ('cost', 1, 1);
 
 
 CREATE TABLE sizes (
