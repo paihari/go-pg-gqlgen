@@ -1,0 +1,326 @@
+
+Mutate
+
+mutation createBucket {
+ createBucket(
+   input: {
+     name: "OCI-Bucket-1"
+     description: "Bucket for Resident 1"
+   }
+ ){
+   id
+ }
+}
+
+mutation createResident {
+ createResident(
+   input: {
+     name: "RES2"
+     description: "Res2"
+   }
+ ){
+   id
+ }
+}
+
+mutation createFilesystem {
+ createFilesystem(
+   input: {
+     name: "FS1"
+     description: "FS1"
+   }
+ ){
+   id
+ }
+}
+
+
+mutation createDb {
+ createDb(
+   input: {
+     name: "DB1"
+     secret: "secret1"
+   }
+ ){
+   id
+ }
+}
+
+mutation createBackup {
+ createBackup(
+   input: {
+     name: "Backup1"
+     description: "Backup"
+   }
+ ){
+   id
+ }
+}
+
+mutation createSize {
+ createSize(
+   input: {
+     name: "Size"
+     cores: 1
+     storage: 1 
+   }
+ ){
+   id
+ }
+}
+
+mutation createChannel {
+ createChannel(
+   input: {
+    name: "Channel1"
+    description: "Channel"
+    class: 1
+    stage: 1
+    service: "Service"
+    address: "Address"
+   }
+ ){
+   id
+ }
+}
+
+mutation createAlert {
+ createAlert(
+   input: {
+    name: "Alert"
+    description: "Alert"
+    measure: "Measure"
+    threshold: 1
+    
+   }
+ ){
+   id
+ }
+}
+
+mutation createBudget {
+ createBudget(
+   input: {
+    name: "Budget"
+    reference: "Reference"
+    term: "term"
+    amount: 10
+    correction: 1
+   }
+ ){
+   id
+ }
+}
+
+
+mutation createNotification {
+ createNotification(
+   input: {
+    control: "Notify"
+    scope: "Global"
+    
+   }
+ ){
+   id
+ }
+}
+
+mutation createRole {
+ createRole(
+   input: {
+    domainId: 1
+    taskId: 1
+    class: 1
+    stage: 1
+    
+   }
+ ){
+   id
+ }
+}
+
+mutation createPrivilege {
+  createPrivilege(input: {
+    name: "Privilege"
+    description: "Desc"
+    scope: "Full"
+  }) {
+    id
+  }
+
+
+}
+
+mutation createTask {
+  createTask(input: {
+    name: "Task"
+    description: "Desc"
+    privilegeId: 1
+    
+  }) {
+    id
+  }
+
+
+}
+
+mutation createStage {
+  createStage(input: {
+    name: "Stage"
+    description: "Desc"
+  }) {
+    id
+  }
+}
+
+mutation createClass {
+  createClass(input: {
+    name: "Class"
+    description: "Class"
+    
+    
+  }) {
+    id
+  }
+}
+
+mutation createDomain {
+  createDomain(input: {
+    name: "Domain"
+    description: "Domain"
+    
+    
+  }) {
+    id
+  }
+}
+
+
+
+
+Read
+
+query getBuckets {
+ buckets {
+     id
+ }
+}
+
+query getResidents {
+ residents {
+     id
+ }
+}
+
+query getFilesystems {
+ filesystems {
+     id
+ }
+}
+
+query getDbs {
+ dbs {
+     id
+     name
+ }
+}
+
+
+query getBackups {
+ backups {
+     id
+     name
+ }
+}
+
+query getSizes {
+ sizes {
+     id
+     name
+ }
+}
+
+query getChannels {
+ channels {
+     id
+     name
+ }
+}
+
+query getAlerts {
+ alerts {
+     id
+     name
+ }
+}
+
+query getBudgets {
+ budgets {
+     id
+     name
+ }
+}
+
+
+
+query getNotifications {
+ notifications {
+     control
+     
+ }
+}
+
+query getRoles {
+ roles {
+     domainId
+     
+ }
+}
+
+query getTasks {
+ tasks {
+     id
+     description
+     
+ }
+}
+
+query getPrivilege {
+ privileges {
+     id
+     description
+     
+ }
+}
+
+query getStages {
+ stages {
+     id
+     description
+     
+ }
+}
+
+query getClasses {
+ classes {
+     id
+     description
+     
+ }
+}
+
+query getDomains {
+ domains {
+     id
+     description
+     
+ }
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,333 @@
+# type Subscription {
+#   id: ID!
+#   topic: String!
+#   roleId: Int!
+#   channelId: Int!
+#   createdAt: String!
+#   updatedAt: String!
+
+# }
+
+# input NewSubscription {
+#   topic: String!
+#   roleId: Int!
+#   channelId: Int!
+# }
+
+type Domain {
+  id: ID!
+  name: String!
+  description: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewDomain{
+  name: String!
+  description: String!
+}
+
+type Class {
+  id: ID!
+  name: String!
+  description: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewClass {
+  name: String!
+  description: String!
+}
+
+type Stage {
+  id: ID!
+  name: String!
+  description: String!
+  createdAt: String!
+  updatedAt: String!  
+}
+
+input NewStage {
+  name: String!
+  description: String!  
+}
+
+type Privilege {
+  id: ID!
+  name: String!
+  description: String!
+  scope: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewPrivilege {
+  name: String!
+  description: String!
+  scope: String!
+}
+
+type Task {
+  id: ID!
+  name: String!
+  description: String!
+  privilegeId: Int!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewTask {
+  name: String!
+  description: String!
+  privilegeId: Int!  
+}
+
+
+
+type Role {
+  id: ID!
+  domainId: Int!
+  taskId: Int!
+  class: Int!
+  stage: Int!
+  createdAt: String!
+  updatedAt: String!
+
+}
+
+input NewRole {
+  domainId: Int!
+  taskId: Int!
+  class: Int!
+  stage: Int!
+} 
+
+type Notification {
+  id: ID!
+  control: String!
+  scope: String!
+  createdAt: String!
+  updatedAt: String!
+
+}
+
+input NewNotification {
+  control: String!
+  scope: String!
+
+}
+
+type Budget {
+  id: ID!
+  name: String!
+  reference: String!
+  term: String!
+  amount: Int!
+  correction: Int!
+  createdAt: String!
+  updatedAt: String!
+
+}
+
+input NewBudget {
+  name: String!
+  reference: String!
+  term: String!
+  amount: Int!
+  correction: Int!
+}
+
+type Alert {
+  id: ID!
+  name: String!
+  description: String!
+  measure: String!
+  threshold: Int!
+  budgetId: Int!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewAlert {
+  name: String!
+  description: String!
+  measure: String!
+  threshold: Int!
+
+}
+
+type Channel {
+  id: ID!
+  name: String!
+  description: String!
+  class: Int!
+  stage: Int!
+  service: String!
+  address: String!
+  alertId: Int!
+  notificationId: Int!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewChannel {
+  name: String!
+  description: String!
+  class: Int!
+  stage: Int!
+  service: String!
+  address: String!
+}
+
+type Size {
+  id: ID!
+  name: String!
+  cores: Int!
+  storage: Int!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewSize {
+  name: String!
+  cores: Int!
+  storage: Int!
+
+}
+
+type Backup {
+  id: ID!
+  name: String!
+  description: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewBackup {
+  name: String!
+  description: String!
+}
+
+type Db {
+  id: ID!
+  name: String!
+  class: Int!
+  stage: Int!
+  secret: String!
+  sizeId: Int!
+  backupId: Int!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewDb {
+  name: String!
+  secret: String!
+}
+
+type Resident {
+  id: ID!
+  name: String!
+  description: String!
+  account: String!
+  createdAt: String!
+  updatedAt: String!
+
+}
+
+input NewResident {
+  name: String!
+  description: String!
+}
+
+type Filesystem {
+  id: ID!
+  name: String!
+  description: String!
+  class: Int!
+  stage: Int!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewFilesystem {
+  name: String!
+  description: String!
+}
+
+
+type Bucket {
+  id: ID!
+  name: String!
+  description: String!
+  class: Int!
+  stage: Int!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewBucket {
+  name: String!
+  description: String!
+}
+
+
+type Movie {
+ id: ID!
+ title: String!
+ url: String!
+ releaseDate: String!
+}
+
+input NewMovie {
+ title: String!
+ url: String!
+}
+
+
+type Query {
+ movies: [Movie!]!
+ buckets: [Bucket!]!
+ filesystems: [Filesystem!]!
+ residents: [Resident!]!
+ dbs: [Db!]!
+ backups: [Backup!]!
+ sizes: [Size!]!
+ channels: [Channel!]!
+ alerts: [Alert!]!
+ budgets: [Budget!]!
+ notifications: [Notification!]!
+ roles: [Role!]!
+ tasks: [Task!]!
+ privileges: [Privilege!]!
+ stages: [Stage!]!
+ classes: [Class!]!
+ domains: [Domain!]!
+
+#  subscriptions: [Subscription!]!
+ 
+}
+
+type Mutation {
+ createMovie(input: NewMovie!): Movie!
+ createBucket(input: NewBucket!): Bucket!
+ createFilesystem(input: NewFilesystem!): Filesystem!
+ createResident(input: NewResident!): Resident!
+ createDb(input: NewDb!): Db!
+ createBackup(input: NewBackup!): Backup!
+ createSize(input: NewSize!): Size!
+ createChannel(input: NewChannel!): Channel!
+ createAlert(input: NewAlert!): Alert!
+ createBudget(input: NewBudget!): Budget!
+ createNotification(input: NewNotification!): Notification!
+ createRole(input: NewRole!): Role!
+ createTask(input: NewTask!): Task!
+ createPrivilege(input: NewPrivilege!): Privilege!
+ createStage(input: NewStage!): Stage!
+ createClass(input: NewClass!): Class!
+ createDomain(input: NewDomain!): Domain!
+ 
+#  createSubscription(input: NewSubscription!): Subscription!
+
+}
