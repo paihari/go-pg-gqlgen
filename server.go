@@ -8,14 +8,14 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/joho/godotenv"
-	"github.com/paihari/go-pg-gqlgen/awscompose"
+	
 	"github.com/paihari/go-pg-gqlgen/graph"
 )
 
 const defaultPort = "8080"
 
 func main() {
-	awscompose.CreateBucket();
+	
 
 	port := os.Getenv("PORT")
 	if port == "" {

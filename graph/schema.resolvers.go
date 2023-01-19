@@ -11,6 +11,7 @@ import (
 
 	pg "github.com/go-pg/pg/v10"
 	"github.com/paihari/go-pg-gqlgen/graph/model"
+	"github.com/paihari/go-pg-gqlgen/awscompose"
 )
 
 // CreateMovie is the resolver for the createMovie field.
@@ -40,6 +41,9 @@ func (r *mutationResolver) CreateMovie(ctx context.Context, input model.NewMovie
 
 // CreateBucket is the resolver for the createBucket field.
 func (r *mutationResolver) CreateBucket(ctx context.Context, input model.NewBucket) (*model.Bucket, error) {
+
+	awscompose.CreateBucket(input.Name);
+
 	bucket := model.Bucket{
 		Name:        input.Name,
 		Description: input.Description,

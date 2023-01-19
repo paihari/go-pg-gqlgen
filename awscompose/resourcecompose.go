@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws/session"
     //"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/google/uuid"
+	//"github.com/google/uuid"
 	
 
 )
@@ -16,13 +16,13 @@ type Config struct {
 }
 
 
-func CreateBucket() {
+func CreateBucket(name string) {
 
 	fmt.Println("Entered Cloud")
     
 	if globalConfig.Bucket == "" {
-        id := uuid.New()
-        globalConfig.Bucket = "test-bucket-" + id.String()
+        
+        globalConfig.Bucket = name
         
     }
 
