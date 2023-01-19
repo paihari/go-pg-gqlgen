@@ -8,8 +8,8 @@
 
 ** Tables **
 
-| Table Name    | GQL Read Write Enabled| Public Cloud Connection Enabled |
-| ------------- | -------------- |--------------------------------
+| Table Name    | GQL Read Write Enabled| Public Cloud Reasource Creation Enabled |
+| ------------- | -------------- |-----------------------------------------------
 | domains  | Yes   |        | 
 | classes  | Yes   |     |
 | stages  | Yes   |     |
