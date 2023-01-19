@@ -1,4 +1,6 @@
 https://dev.to/franciscomendes10866/build-a-crud-graphql-api-with-gqlgen-and-gorm-36de
 https://github.com/FranciscoMendes10866/gqlgen-gorm
 https://hasura.io/blog/building-a-graphql-api-with-golang-postgres-and-hasura/
-	
+
+
+https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables
