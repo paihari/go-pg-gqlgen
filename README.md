@@ -11,4 +11,36 @@ Tables
 | Table Name    | GQL Read Write Enabled| Public Cloud Connection Enabled |
 | ------------- | -------------- |--------------------------------
 | domains  | Yes   |        | 
-| classes  | Content Cell   |     |
+| classes  | Yes   |     |
+| stages  | Yes   |     |
+| privileges  | Yes   |     |
+| tasks  | Yes   |     |
+| roles  | Yes   |     |
+| notifications  | Yes   |     |
+| budgets  | Yes   |     |
+| alerts  | Yes   |     |
+| channels  | Yes   |     |
+| subscriptions/agreements  | Yes   |     |
+| sizes  | Yes   |     |
+| **backups**  | Yes   |     |
+| **dbs**  | Yes   |     |
+| **buckets**  | Yes   | **Yes**    |
+| **filesystems**  | Yes   |     |
+| **residents**  | Yes   |     |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
