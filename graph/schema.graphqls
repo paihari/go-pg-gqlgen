@@ -1,3 +1,19 @@
+type RouteTable {
+  id: ID!
+  name: String!
+  description: String!
+  routeTableId: String!
+  vpcId: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewRouteTable {
+  name: String!
+  description: String!
+  vpcId: String!
+}
+
 type Subnet {
   id: ID!
   name: String!
@@ -362,6 +378,7 @@ type Query {
  vpcs: [Vpc!]!
  internetgateways: [Internetgateway!]!
  subnets: [Subnet!]!
+ routetables: [RouteTable!]!
  
 #  subscriptions: [Subscription!]!
  
@@ -389,6 +406,8 @@ type Mutation {
  createVpc(input: NewVpc!): Vpc!
  createInternetgateway(input: NewInternetgateway!): Internetgateway!
  createSubnet(input: NewSubnet!): Subnet!
+ createRouteTable(input: NewRouteTable!): RouteTable!
+
 #  createSubscription(input: NewSubscription!): Subscription!
 
 }

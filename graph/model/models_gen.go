@@ -214,6 +214,12 @@ type NewRole struct {
 	Stage    int `json:"stage"`
 }
 
+type NewRouteTable struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	VpcID       string `json:"vpcId"`
+}
+
 type NewSize struct {
 	Name    string `json:"name"`
 	Cores   int    `json:"cores"`
@@ -278,6 +284,16 @@ type Role struct {
 	Stage     int    `json:"stage"`
 	CreatedAt string `json:"createdAt"`
 	UpdatedAt string `json:"updatedAt"`
+}
+
+type RouteTable struct {
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	Description  string `json:"description"`
+	RouteTableID string `json:"routeTableId"`
+	VpcID        string `json:"vpcId"`
+	CreatedAt    string `json:"createdAt"`
+	UpdatedAt    string `json:"updatedAt"`
 }
 
 type Size struct {

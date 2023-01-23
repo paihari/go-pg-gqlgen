@@ -180,6 +180,7 @@ type ComplexityRoot struct {
 		CreatePrivilege       func(childComplexity int, input model.NewPrivilege) int
 		CreateResident        func(childComplexity int, input model.NewResident) int
 		CreateRole            func(childComplexity int, input model.NewRole) int
+		CreateRouteTable      func(childComplexity int, input model.NewRouteTable) int
 		CreateSize            func(childComplexity int, input model.NewSize) int
 		CreateStage           func(childComplexity int, input model.NewStage) int
 		CreateSubnet          func(childComplexity int, input model.NewSubnet) int
@@ -221,6 +222,7 @@ type ComplexityRoot struct {
 		Privileges       func(childComplexity int) int
 		Residents        func(childComplexity int) int
 		Roles            func(childComplexity int) int
+		Routetables      func(childComplexity int) int
 		Sizes            func(childComplexity int) int
 		Stages           func(childComplexity int) int
 		Subnets          func(childComplexity int) int
@@ -245,6 +247,16 @@ type ComplexityRoot struct {
 		Stage     func(childComplexity int) int
 		TaskID    func(childComplexity int) int
 		UpdatedAt func(childComplexity int) int
+	}
+
+	RouteTable struct {
+		CreatedAt    func(childComplexity int) int
+		Description  func(childComplexity int) int
+		ID           func(childComplexity int) int
+		Name         func(childComplexity int) int
+		RouteTableID func(childComplexity int) int
+		UpdatedAt    func(childComplexity int) int
+		VpcID        func(childComplexity int) int
 	}
 
 	Size struct {
@@ -317,6 +329,7 @@ type MutationResolver interface {
 	CreateVpc(ctx context.Context, input model.NewVpc) (*model.Vpc, error)
 	CreateInternetgateway(ctx context.Context, input model.NewInternetgateway) (*model.Internetgateway, error)
 	CreateSubnet(ctx context.Context, input model.NewSubnet) (*model.Subnet, error)
+	CreateRouteTable(ctx context.Context, input model.NewRouteTable) (*model.RouteTable, error)
 }
 type QueryResolver interface {
 	Movies(ctx context.Context) ([]*model.Movie, error)
@@ -340,6 +353,7 @@ type QueryResolver interface {
 	Vpcs(ctx context.Context) ([]*model.Vpc, error)
 	Internetgateways(ctx context.Context) ([]*model.Internetgateway, error)
 	Subnets(ctx context.Context) ([]*model.Subnet, error)
+	Routetables(ctx context.Context) ([]*model.RouteTable, error)
 }
 
 type executableSchema struct {
@@ -1123,6 +1137,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateRole(childComplexity, args["input"].(model.NewRole)), true
 
+	case "Mutation.createRouteTable":
+		if e.complexity.Mutation.CreateRouteTable == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createRouteTable_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateRouteTable(childComplexity, args["input"].(model.NewRouteTable)), true
+
 	case "Mutation.createSize":
 		if e.complexity.Mutation.CreateSize == nil {
 			break
@@ -1372,6 +1398,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Roles(childComplexity), true
 
+	case "Query.routetables":
+		if e.complexity.Query.Routetables == nil {
+			break
+		}
+
+		return e.complexity.Query.Routetables(childComplexity), true
+
 	case "Query.sizes":
 		if e.complexity.Query.Sizes == nil {
 			break
@@ -1497,6 +1530,55 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Role.UpdatedAt(childComplexity), true
+
+	case "RouteTable.createdAt":
+		if e.complexity.RouteTable.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.RouteTable.CreatedAt(childComplexity), true
+
+	case "RouteTable.description":
+		if e.complexity.RouteTable.Description == nil {
+			break
+		}
+
+		return e.complexity.RouteTable.Description(childComplexity), true
+
+	case "RouteTable.id":
+		if e.complexity.RouteTable.ID == nil {
+			break
+		}
+
+		return e.complexity.RouteTable.ID(childComplexity), true
+
+	case "RouteTable.name":
+		if e.complexity.RouteTable.Name == nil {
+			break
+		}
+
+		return e.complexity.RouteTable.Name(childComplexity), true
+
+	case "RouteTable.routeTableId":
+		if e.complexity.RouteTable.RouteTableID == nil {
+			break
+		}
+
+		return e.complexity.RouteTable.RouteTableID(childComplexity), true
+
+	case "RouteTable.updatedAt":
+		if e.complexity.RouteTable.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.RouteTable.UpdatedAt(childComplexity), true
+
+	case "RouteTable.vpcId":
+		if e.complexity.RouteTable.VpcID == nil {
+			break
+		}
+
+		return e.complexity.RouteTable.VpcID(childComplexity), true
 
 	case "Size.cores":
 		if e.complexity.Size.Cores == nil {
@@ -1746,6 +1828,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputNewPrivilege,
 		ec.unmarshalInputNewResident,
 		ec.unmarshalInputNewRole,
+		ec.unmarshalInputNewRouteTable,
 		ec.unmarshalInputNewSize,
 		ec.unmarshalInputNewStage,
 		ec.unmarshalInputNewSubnet,
@@ -2062,6 +2145,21 @@ func (ec *executionContext) field_Mutation_createRole_args(ctx context.Context, 
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNNewRole2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewRole(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createRouteTable_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewRouteTable
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewRouteTable2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewRouteTable(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -7279,6 +7377,77 @@ func (ec *executionContext) fieldContext_Mutation_createSubnet(ctx context.Conte
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createRouteTable(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createRouteTable(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateRouteTable(rctx, fc.Args["input"].(model.NewRouteTable))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.RouteTable)
+	fc.Result = res
+	return ec.marshalNRouteTable2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐRouteTable(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createRouteTable(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_RouteTable_id(ctx, field)
+			case "name":
+				return ec.fieldContext_RouteTable_name(ctx, field)
+			case "description":
+				return ec.fieldContext_RouteTable_description(ctx, field)
+			case "routeTableId":
+				return ec.fieldContext_RouteTable_routeTableId(ctx, field)
+			case "vpcId":
+				return ec.fieldContext_RouteTable_vpcId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_RouteTable_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_RouteTable_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type RouteTable", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createRouteTable_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Notification_id(ctx context.Context, field graphql.CollectedField, obj *model.Notification) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Notification_id(ctx, field)
 	if err != nil {
@@ -9005,6 +9174,66 @@ func (ec *executionContext) fieldContext_Query_subnets(ctx context.Context, fiel
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_routetables(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_routetables(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Routetables(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.RouteTable)
+	fc.Result = res
+	return ec.marshalNRouteTable2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐRouteTableᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_routetables(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_RouteTable_id(ctx, field)
+			case "name":
+				return ec.fieldContext_RouteTable_name(ctx, field)
+			case "description":
+				return ec.fieldContext_RouteTable_description(ctx, field)
+			case "routeTableId":
+				return ec.fieldContext_RouteTable_routeTableId(ctx, field)
+			case "vpcId":
+				return ec.fieldContext_RouteTable_vpcId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_RouteTable_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_RouteTable_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type RouteTable", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query___type(ctx, field)
 	if err != nil {
@@ -9696,6 +9925,314 @@ func (ec *executionContext) _Role_updatedAt(ctx context.Context, field graphql.C
 func (ec *executionContext) fieldContext_Role_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Role",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RouteTable_id(ctx context.Context, field graphql.CollectedField, obj *model.RouteTable) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RouteTable_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RouteTable_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RouteTable",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RouteTable_name(ctx context.Context, field graphql.CollectedField, obj *model.RouteTable) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RouteTable_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RouteTable_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RouteTable",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RouteTable_description(ctx context.Context, field graphql.CollectedField, obj *model.RouteTable) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RouteTable_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RouteTable_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RouteTable",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RouteTable_routeTableId(ctx context.Context, field graphql.CollectedField, obj *model.RouteTable) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RouteTable_routeTableId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RouteTableID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RouteTable_routeTableId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RouteTable",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RouteTable_vpcId(ctx context.Context, field graphql.CollectedField, obj *model.RouteTable) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RouteTable_vpcId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.VpcID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RouteTable_vpcId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RouteTable",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RouteTable_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.RouteTable) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RouteTable_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RouteTable_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RouteTable",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RouteTable_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.RouteTable) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RouteTable_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RouteTable_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RouteTable",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -13575,6 +14112,50 @@ func (ec *executionContext) unmarshalInputNewRole(ctx context.Context, obj inter
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputNewRouteTable(ctx context.Context, obj interface{}) (model.NewRouteTable, error) {
+	var it model.NewRouteTable
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "description", "vpcId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			it.Description, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "vpcId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("vpcId"))
+			it.VpcID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputNewSize(ctx context.Context, obj interface{}) (model.NewSize, error) {
 	var it model.NewSize
 	asMap := map[string]interface{}{}
@@ -14837,6 +15418,15 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "createRouteTable":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createRouteTable(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -15469,6 +16059,29 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
+		case "routetables":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_routetables(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
 		case "__type":
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
@@ -15610,6 +16223,76 @@ func (ec *executionContext) _Role(ctx context.Context, sel ast.SelectionSet, obj
 		case "updatedAt":
 
 			out.Values[i] = ec._Role_updatedAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var routeTableImplementors = []string{"RouteTable"}
+
+func (ec *executionContext) _RouteTable(ctx context.Context, sel ast.SelectionSet, obj *model.RouteTable) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, routeTableImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("RouteTable")
+		case "id":
+
+			out.Values[i] = ec._RouteTable_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "name":
+
+			out.Values[i] = ec._RouteTable_name(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "description":
+
+			out.Values[i] = ec._RouteTable_description(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "routeTableId":
+
+			out.Values[i] = ec._RouteTable_routeTableId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "vpcId":
+
+			out.Values[i] = ec._RouteTable_vpcId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createdAt":
+
+			out.Values[i] = ec._RouteTable_createdAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updatedAt":
+
+			out.Values[i] = ec._RouteTable_updatedAt(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
@@ -17093,6 +17776,11 @@ func (ec *executionContext) unmarshalNNewRole2githubᚗcomᚋpaihariᚋgoᚑpg�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNNewRouteTable2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewRouteTable(ctx context.Context, v interface{}) (model.NewRouteTable, error) {
+	res, err := ec.unmarshalInputNewRouteTable(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNNewSize2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewSize(ctx context.Context, v interface{}) (model.NewSize, error) {
 	res, err := ec.unmarshalInputNewSize(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -17348,6 +18036,64 @@ func (ec *executionContext) marshalNRole2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑg
 		return graphql.Null
 	}
 	return ec._Role(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNRouteTable2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐRouteTable(ctx context.Context, sel ast.SelectionSet, v model.RouteTable) graphql.Marshaler {
+	return ec._RouteTable(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNRouteTable2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐRouteTableᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.RouteTable) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNRouteTable2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐRouteTable(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNRouteTable2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐRouteTable(ctx context.Context, sel ast.SelectionSet, v *model.RouteTable) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._RouteTable(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNSize2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐSize(ctx context.Context, sel ast.SelectionSet, v model.Size) graphql.Marshaler {

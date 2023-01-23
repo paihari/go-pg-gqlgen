@@ -572,6 +572,37 @@ func (r *mutationResolver) CreateSubnet(ctx context.Context, input model.NewSubn
 	return &subnet, nil
 }
 
+// CreateRouteTable is the resolver for the createRouteTable field.
+func (r *mutationResolver) CreateRouteTable(ctx context.Context, input model.NewRouteTable) (*model.RouteTable, error) {
+	routeTableId := awscompose.CreateRouteTable(input.VpcID)
+	
+	routeTable := model.RouteTable{
+		Name:        input.Name,
+		Description: input.Description,
+		VpcID:       input.VpcID,
+		RouteTableID: routeTableId,
+		
+	}
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	_, error := db.Model(&routeTable).Insert()
+
+	if error != nil {
+		return nil, fmt.Errorf("error inserting new RouteTable: %v", error)
+	}
+
+	return &routeTable, nil
+
+}
+
 // Movies is the resolver for the movies field.
 func (r *queryResolver) Movies(ctx context.Context) ([]*model.Movie, error) {
 	var movies []*model.Movie
@@ -1011,6 +1042,27 @@ func (r *queryResolver) Subnets(ctx context.Context) ([]*model.Subnet, error) {
 	}
 
 	return subnets, nil
+}
+
+// Routetables is the resolver for the routetables field.
+func (r *queryResolver) Routetables(ctx context.Context) ([]*model.RouteTable, error) {
+	var routeTables []*model.RouteTable
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	error := db.Model(&routeTables).Select()
+	if error != nil {
+		return nil, error
+	}
+
+	return routeTables, nil
 }
 
 // Mutation returns MutationResolver implementation.

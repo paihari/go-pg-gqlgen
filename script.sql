@@ -390,6 +390,18 @@ CREATE TABLE subnets (
     PRIMARY KEY(id)
 );
 
+CREATE TABLE route_tables (
+    id SERIAL,
+    name VARCHAR(32) UNIQUE,
+    description TEXT,
+    class SMALLINT DEFAULT 1,
+    stage SMALLINT DEFAULT 1,
+    route_table_id TEXT,
+    vpc_id TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
 
 
 

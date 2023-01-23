@@ -246,6 +246,19 @@ mutation createSubnet {
   }
 }
 
+mutation createRouteTable {
+  createRouteTable(input: {
+    name: "clontrol-routetable-1"
+    description: "Route Table for Control API"
+    vpcId: "vpc-09a78a5ad2d67605b"
+    
+    
+  }) {
+    id
+    routeTableId
+
+  }
+}
 
 
 
@@ -394,6 +407,13 @@ query getInternetGateways {
  }
 }
 
+query getRouteTables {
+ routetables{
+     id
+     routeTableId
+     
+ }
+}
 
 
 
