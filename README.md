@@ -28,6 +28,8 @@ Tables
 | **filesystems**  | Yes   |     |
 | **residents**  | Yes   |     |
 | **vpcs**  | Yes   |**Yes**     |
+| **internetgateways**  | Yes   |**Yes**     |
+
 
 
 
