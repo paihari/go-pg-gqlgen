@@ -363,6 +363,21 @@ CREATE TABLE vpcs (
     PRIMARY KEY(id)
 );
 
+CREATE TABLE internetgateways (
+    id SERIAL,
+    name VARCHAR(32) UNIQUE,
+    description TEXT,
+    class SMALLINT DEFAULT 1,
+    stage SMALLINT DEFAULT 1,
+    internet_gateway_id TEXT,
+    vpc_id TEXT.
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
+
+
+
 
 
 https://github.com/go-pg/pg/issues/654

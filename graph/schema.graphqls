@@ -1,3 +1,23 @@
+
+
+type Internetgateway {
+  id: ID!
+  name: String!
+  description: String!
+  internetGatewayId: String!
+  vpcId: String!
+  createdAt: String!
+  updatedAt: String!
+
+}
+
+input NewInternetgateway {
+  name: String!
+  description: String!
+  vpcId: String!
+
+  }
+
 type Vpc {
   id: ID!
   name: String!
@@ -323,6 +343,7 @@ type Query {
  domains: [Domain!]!
  agreements: [Agreement!]!
  vpcs: [Vpc!]!
+ internetgateways: [Internetgateway!]!
 
 #  subscriptions: [Subscription!]!
  
@@ -348,6 +369,7 @@ type Mutation {
  createDomain(input: NewDomain!): Domain!
  createAgreement(input: NewAgreement!): Agreement!
  createVpc(input: NewVpc!): Vpc!
+ createInternetgateway(input: NewInternetgateway!): Internetgateway!
 #  createSubscription(input: NewSubscription!): Subscription!
 
 }

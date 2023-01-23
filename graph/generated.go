@@ -146,6 +146,16 @@ type ComplexityRoot struct {
 		UpdatedAt   func(childComplexity int) int
 	}
 
+	Internetgateway struct {
+		CreatedAt         func(childComplexity int) int
+		Description       func(childComplexity int) int
+		ID                func(childComplexity int) int
+		InternetGatewayID func(childComplexity int) int
+		Name              func(childComplexity int) int
+		UpdatedAt         func(childComplexity int) int
+		VpcID             func(childComplexity int) int
+	}
+
 	Movie struct {
 		ID          func(childComplexity int) int
 		ReleaseDate func(childComplexity int) int
@@ -154,25 +164,26 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateAgreement    func(childComplexity int, input model.NewAgreement) int
-		CreateAlert        func(childComplexity int, input model.NewAlert) int
-		CreateBackup       func(childComplexity int, input model.NewBackup) int
-		CreateBucket       func(childComplexity int, input model.NewBucket) int
-		CreateBudget       func(childComplexity int, input model.NewBudget) int
-		CreateChannel      func(childComplexity int, input model.NewChannel) int
-		CreateClass        func(childComplexity int, input model.NewClass) int
-		CreateDb           func(childComplexity int, input model.NewDb) int
-		CreateDomain       func(childComplexity int, input model.NewDomain) int
-		CreateFilesystem   func(childComplexity int, input model.NewFilesystem) int
-		CreateMovie        func(childComplexity int, input model.NewMovie) int
-		CreateNotification func(childComplexity int, input model.NewNotification) int
-		CreatePrivilege    func(childComplexity int, input model.NewPrivilege) int
-		CreateResident     func(childComplexity int, input model.NewResident) int
-		CreateRole         func(childComplexity int, input model.NewRole) int
-		CreateSize         func(childComplexity int, input model.NewSize) int
-		CreateStage        func(childComplexity int, input model.NewStage) int
-		CreateTask         func(childComplexity int, input model.NewTask) int
-		CreateVpc          func(childComplexity int, input model.NewVpc) int
+		CreateAgreement       func(childComplexity int, input model.NewAgreement) int
+		CreateAlert           func(childComplexity int, input model.NewAlert) int
+		CreateBackup          func(childComplexity int, input model.NewBackup) int
+		CreateBucket          func(childComplexity int, input model.NewBucket) int
+		CreateBudget          func(childComplexity int, input model.NewBudget) int
+		CreateChannel         func(childComplexity int, input model.NewChannel) int
+		CreateClass           func(childComplexity int, input model.NewClass) int
+		CreateDb              func(childComplexity int, input model.NewDb) int
+		CreateDomain          func(childComplexity int, input model.NewDomain) int
+		CreateFilesystem      func(childComplexity int, input model.NewFilesystem) int
+		CreateInternetgateway func(childComplexity int, input model.NewInternetgateway) int
+		CreateMovie           func(childComplexity int, input model.NewMovie) int
+		CreateNotification    func(childComplexity int, input model.NewNotification) int
+		CreatePrivilege       func(childComplexity int, input model.NewPrivilege) int
+		CreateResident        func(childComplexity int, input model.NewResident) int
+		CreateRole            func(childComplexity int, input model.NewRole) int
+		CreateSize            func(childComplexity int, input model.NewSize) int
+		CreateStage           func(childComplexity int, input model.NewStage) int
+		CreateTask            func(childComplexity int, input model.NewTask) int
+		CreateVpc             func(childComplexity int, input model.NewVpc) int
 	}
 
 	Notification struct {
@@ -193,25 +204,26 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Agreements    func(childComplexity int) int
-		Alerts        func(childComplexity int) int
-		Backups       func(childComplexity int) int
-		Buckets       func(childComplexity int) int
-		Budgets       func(childComplexity int) int
-		Channels      func(childComplexity int) int
-		Classes       func(childComplexity int) int
-		Dbs           func(childComplexity int) int
-		Domains       func(childComplexity int) int
-		Filesystems   func(childComplexity int) int
-		Movies        func(childComplexity int) int
-		Notifications func(childComplexity int) int
-		Privileges    func(childComplexity int) int
-		Residents     func(childComplexity int) int
-		Roles         func(childComplexity int) int
-		Sizes         func(childComplexity int) int
-		Stages        func(childComplexity int) int
-		Tasks         func(childComplexity int) int
-		Vpcs          func(childComplexity int) int
+		Agreements       func(childComplexity int) int
+		Alerts           func(childComplexity int) int
+		Backups          func(childComplexity int) int
+		Buckets          func(childComplexity int) int
+		Budgets          func(childComplexity int) int
+		Channels         func(childComplexity int) int
+		Classes          func(childComplexity int) int
+		Dbs              func(childComplexity int) int
+		Domains          func(childComplexity int) int
+		Filesystems      func(childComplexity int) int
+		Internetgateways func(childComplexity int) int
+		Movies           func(childComplexity int) int
+		Notifications    func(childComplexity int) int
+		Privileges       func(childComplexity int) int
+		Residents        func(childComplexity int) int
+		Roles            func(childComplexity int) int
+		Sizes            func(childComplexity int) int
+		Stages           func(childComplexity int) int
+		Tasks            func(childComplexity int) int
+		Vpcs             func(childComplexity int) int
 	}
 
 	Resident struct {
@@ -290,6 +302,7 @@ type MutationResolver interface {
 	CreateDomain(ctx context.Context, input model.NewDomain) (*model.Domain, error)
 	CreateAgreement(ctx context.Context, input model.NewAgreement) (*model.Agreement, error)
 	CreateVpc(ctx context.Context, input model.NewVpc) (*model.Vpc, error)
+	CreateInternetgateway(ctx context.Context, input model.NewInternetgateway) (*model.Internetgateway, error)
 }
 type QueryResolver interface {
 	Movies(ctx context.Context) ([]*model.Movie, error)
@@ -311,6 +324,7 @@ type QueryResolver interface {
 	Domains(ctx context.Context) ([]*model.Domain, error)
 	Agreements(ctx context.Context) ([]*model.Agreement, error)
 	Vpcs(ctx context.Context) ([]*model.Vpc, error)
+	Internetgateways(ctx context.Context) ([]*model.Internetgateway, error)
 }
 
 type executableSchema struct {
@@ -825,6 +839,55 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Filesystem.UpdatedAt(childComplexity), true
 
+	case "Internetgateway.createdAt":
+		if e.complexity.Internetgateway.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.Internetgateway.CreatedAt(childComplexity), true
+
+	case "Internetgateway.description":
+		if e.complexity.Internetgateway.Description == nil {
+			break
+		}
+
+		return e.complexity.Internetgateway.Description(childComplexity), true
+
+	case "Internetgateway.id":
+		if e.complexity.Internetgateway.ID == nil {
+			break
+		}
+
+		return e.complexity.Internetgateway.ID(childComplexity), true
+
+	case "Internetgateway.internetGatewayId":
+		if e.complexity.Internetgateway.InternetGatewayID == nil {
+			break
+		}
+
+		return e.complexity.Internetgateway.InternetGatewayID(childComplexity), true
+
+	case "Internetgateway.name":
+		if e.complexity.Internetgateway.Name == nil {
+			break
+		}
+
+		return e.complexity.Internetgateway.Name(childComplexity), true
+
+	case "Internetgateway.updatedAt":
+		if e.complexity.Internetgateway.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.Internetgateway.UpdatedAt(childComplexity), true
+
+	case "Internetgateway.vpcId":
+		if e.complexity.Internetgateway.VpcID == nil {
+			break
+		}
+
+		return e.complexity.Internetgateway.VpcID(childComplexity), true
+
 	case "Movie.id":
 		if e.complexity.Movie.ID == nil {
 			break
@@ -972,6 +1035,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateFilesystem(childComplexity, args["input"].(model.NewFilesystem)), true
+
+	case "Mutation.createInternetgateway":
+		if e.complexity.Mutation.CreateInternetgateway == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createInternetgateway_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateInternetgateway(childComplexity, args["input"].(model.NewInternetgateway)), true
 
 	case "Mutation.createMovie":
 		if e.complexity.Mutation.CreateMovie == nil {
@@ -1227,6 +1302,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.Filesystems(childComplexity), true
+
+	case "Query.internetgateways":
+		if e.complexity.Query.Internetgateways == nil {
+			break
+		}
+
+		return e.complexity.Query.Internetgateways(childComplexity), true
 
 	case "Query.movies":
 		if e.complexity.Query.Movies == nil {
@@ -1568,6 +1650,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputNewDb,
 		ec.unmarshalInputNewDomain,
 		ec.unmarshalInputNewFilesystem,
+		ec.unmarshalInputNewInternetgateway,
 		ec.unmarshalInputNewMovie,
 		ec.unmarshalInputNewNotification,
 		ec.unmarshalInputNewPrivilege,
@@ -1798,6 +1881,21 @@ func (ec *executionContext) field_Mutation_createFilesystem_args(ctx context.Con
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNNewFilesystem2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewFilesystem(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createInternetgateway_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewInternetgateway
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewInternetgateway2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewInternetgateway(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5118,6 +5216,314 @@ func (ec *executionContext) fieldContext_Filesystem_updatedAt(ctx context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _Internetgateway_id(ctx context.Context, field graphql.CollectedField, obj *model.Internetgateway) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Internetgateway_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Internetgateway_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Internetgateway",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Internetgateway_name(ctx context.Context, field graphql.CollectedField, obj *model.Internetgateway) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Internetgateway_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Internetgateway_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Internetgateway",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Internetgateway_description(ctx context.Context, field graphql.CollectedField, obj *model.Internetgateway) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Internetgateway_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Internetgateway_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Internetgateway",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Internetgateway_internetGatewayId(ctx context.Context, field graphql.CollectedField, obj *model.Internetgateway) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Internetgateway_internetGatewayId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.InternetGatewayID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Internetgateway_internetGatewayId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Internetgateway",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Internetgateway_vpcId(ctx context.Context, field graphql.CollectedField, obj *model.Internetgateway) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Internetgateway_vpcId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.VpcID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Internetgateway_vpcId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Internetgateway",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Internetgateway_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Internetgateway) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Internetgateway_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Internetgateway_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Internetgateway",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Internetgateway_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Internetgateway) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Internetgateway_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Internetgateway_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Internetgateway",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Movie_id(ctx context.Context, field graphql.CollectedField, obj *model.Movie) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Movie_id(ctx, field)
 	if err != nil {
@@ -6617,6 +7023,77 @@ func (ec *executionContext) fieldContext_Mutation_createVpc(ctx context.Context,
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_createVpc_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createInternetgateway(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createInternetgateway(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateInternetgateway(rctx, fc.Args["input"].(model.NewInternetgateway))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Internetgateway)
+	fc.Result = res
+	return ec.marshalNInternetgateway2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐInternetgateway(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createInternetgateway(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Internetgateway_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Internetgateway_name(ctx, field)
+			case "description":
+				return ec.fieldContext_Internetgateway_description(ctx, field)
+			case "internetGatewayId":
+				return ec.fieldContext_Internetgateway_internetGatewayId(ctx, field)
+			case "vpcId":
+				return ec.fieldContext_Internetgateway_vpcId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Internetgateway_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Internetgateway_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Internetgateway", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createInternetgateway_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -8222,6 +8699,66 @@ func (ec *executionContext) fieldContext_Query_vpcs(ctx context.Context, field g
 				return ec.fieldContext_Vpc_updatedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Vpc", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_internetgateways(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_internetgateways(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Internetgateways(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Internetgateway)
+	fc.Result = res
+	return ec.marshalNInternetgateway2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐInternetgatewayᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_internetgateways(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Internetgateway_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Internetgateway_name(ctx, field)
+			case "description":
+				return ec.fieldContext_Internetgateway_description(ctx, field)
+			case "internetGatewayId":
+				return ec.fieldContext_Internetgateway_internetGatewayId(ctx, field)
+			case "vpcId":
+				return ec.fieldContext_Internetgateway_vpcId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Internetgateway_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Internetgateway_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Internetgateway", field.Name)
 		},
 	}
 	return fc, nil
@@ -12197,6 +12734,50 @@ func (ec *executionContext) unmarshalInputNewFilesystem(ctx context.Context, obj
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputNewInternetgateway(ctx context.Context, obj interface{}) (model.NewInternetgateway, error) {
+	var it model.NewInternetgateway
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "description", "vpcId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			it.Description, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "vpcId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("vpcId"))
+			it.VpcID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputNewMovie(ctx context.Context, obj interface{}) (model.NewMovie, error) {
 	var it model.NewMovie
 	asMap := map[string]interface{}{}
@@ -13284,6 +13865,76 @@ func (ec *executionContext) _Filesystem(ctx context.Context, sel ast.SelectionSe
 	return out
 }
 
+var internetgatewayImplementors = []string{"Internetgateway"}
+
+func (ec *executionContext) _Internetgateway(ctx context.Context, sel ast.SelectionSet, obj *model.Internetgateway) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, internetgatewayImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Internetgateway")
+		case "id":
+
+			out.Values[i] = ec._Internetgateway_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "name":
+
+			out.Values[i] = ec._Internetgateway_name(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "description":
+
+			out.Values[i] = ec._Internetgateway_description(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "internetGatewayId":
+
+			out.Values[i] = ec._Internetgateway_internetGatewayId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "vpcId":
+
+			out.Values[i] = ec._Internetgateway_vpcId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createdAt":
+
+			out.Values[i] = ec._Internetgateway_createdAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updatedAt":
+
+			out.Values[i] = ec._Internetgateway_updatedAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var movieImplementors = []string{"Movie"}
 
 func (ec *executionContext) _Movie(ctx context.Context, sel ast.SelectionSet, obj *model.Movie) graphql.Marshaler {
@@ -13518,6 +14169,15 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createVpc(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createInternetgateway":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createInternetgateway(ctx, field)
 			})
 
 			if out.Values[i] == graphql.Null {
@@ -14096,6 +14756,29 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_vpcs(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
+		case "internetgateways":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_internetgateways(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -15460,6 +16143,64 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
+func (ec *executionContext) marshalNInternetgateway2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐInternetgateway(ctx context.Context, sel ast.SelectionSet, v model.Internetgateway) graphql.Marshaler {
+	return ec._Internetgateway(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNInternetgateway2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐInternetgatewayᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Internetgateway) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNInternetgateway2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐInternetgateway(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNInternetgateway2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐInternetgateway(ctx context.Context, sel ast.SelectionSet, v *model.Internetgateway) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Internetgateway(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNMovie2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐMovie(ctx context.Context, sel ast.SelectionSet, v model.Movie) graphql.Marshaler {
 	return ec._Movie(ctx, sel, &v)
 }
@@ -15565,6 +16306,11 @@ func (ec *executionContext) unmarshalNNewDomain2githubᚗcomᚋpaihariᚋgoᚑpg
 
 func (ec *executionContext) unmarshalNNewFilesystem2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewFilesystem(ctx context.Context, v interface{}) (model.NewFilesystem, error) {
 	res, err := ec.unmarshalInputNewFilesystem(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewInternetgateway2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewInternetgateway(ctx context.Context, v interface{}) (model.NewInternetgateway, error) {
+	res, err := ec.unmarshalInputNewInternetgateway(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 

@@ -489,7 +489,7 @@ func (r *mutationResolver) CreateVpc(ctx context.Context, input model.NewVpc) (*
 	vpcId1 := awscompose.CreateVpc(input.CidrBlock)
 	fmt.Println("THE VPC ID")
 	fmt.Println(vpcId1)
-	
+
 	vpc := model.Vpc{
 		Name:        input.Name,
 		Description: input.Description,
@@ -513,6 +513,34 @@ func (r *mutationResolver) CreateVpc(ctx context.Context, input model.NewVpc) (*
 	}
 
 	return &vpc, nil
+}
+
+// CreateInternetgateway is the resolver for the createInternetgateway field.
+func (r *mutationResolver) CreateInternetgateway(ctx context.Context, input model.NewInternetgateway) (*model.Internetgateway, error) {
+	internetgatewayId := awscompose.CreateAndAttachInternetGateway(input.VpcID)
+	internetGateway := model.Internetgateway{
+		Name:              input.Name,
+		Description:       input.Description,
+		InternetGatewayID: internetgatewayId,
+		VpcID:             input.VpcID,
+	}
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	_, error := db.Model(&internetGateway).Insert()
+
+	if error != nil {
+		return nil, fmt.Errorf("error inserting new Internetgateway: %v", error)
+	}
+
+	return &internetGateway, nil
 }
 
 // Movies is the resolver for the movies field.
@@ -912,6 +940,27 @@ func (r *queryResolver) Vpcs(ctx context.Context) ([]*model.Vpc, error) {
 	}
 
 	return vpcs, nil
+}
+
+// Internetgateways is the resolver for the internetgateways field.
+func (r *queryResolver) Internetgateways(ctx context.Context) ([]*model.Internetgateway, error) {
+	var internetgateways []*model.Internetgateway
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	error := db.Model(&internetgateways).Select()
+	if error != nil {
+		return nil, error
+	}
+
+	return internetgateways, nil
 }
 
 // Mutation returns MutationResolver implementation.

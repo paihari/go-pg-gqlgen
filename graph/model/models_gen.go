@@ -103,6 +103,16 @@ type Filesystem struct {
 	UpdatedAt   string `json:"updatedAt"`
 }
 
+type Internetgateway struct {
+	ID                string `json:"id"`
+	Name              string `json:"name"`
+	Description       string `json:"description"`
+	InternetGatewayID string `json:"internetGatewayId"`
+	VpcID             string `json:"vpcId"`
+	CreatedAt         string `json:"createdAt"`
+	UpdatedAt         string `json:"updatedAt"`
+}
+
 type Movie struct {
 	ID          string `json:"id"`
 	Title       string `json:"title"`
@@ -168,6 +178,12 @@ type NewDomain struct {
 type NewFilesystem struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
+}
+
+type NewInternetgateway struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	VpcID       string `json:"vpcId"`
 }
 
 type NewMovie struct {

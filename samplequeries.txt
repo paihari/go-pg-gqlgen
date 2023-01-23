@@ -218,6 +218,19 @@ mutation createVpc {
   }
 }
 
+mutation createInternetGateway {
+  createInternetGateway(input: {
+    name: "clontrol-ig-1"
+    description: "IG for Control API"
+    vpcId: "vpc-09a78a5ad2d67605b"
+    
+  }) {
+    id
+    internetGatewayId
+
+  }
+}
+
 
 
 
@@ -351,6 +364,15 @@ query getAgreements {
 query getVpcs {
  vpcs {
      id
+     vpcId
+     
+ }
+}
+
+query getInternetGateways {
+ internetGateways {
+     id
+     internetGatewayId
      vpcId
      
  }
