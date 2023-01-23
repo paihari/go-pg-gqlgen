@@ -6,7 +6,6 @@ require (
 	github.com/99designs/gqlgen v0.17.22
 	github.com/aws/aws-sdk-go v1.44.182
 	github.com/go-pg/pg/v10 v10.11.0
-	github.com/google/uuid v1.3.0
 	github.com/joho/godotenv v1.4.0
 	github.com/vektah/gqlparser/v2 v2.5.1
 )

@@ -347,4 +347,22 @@ INSERT INTO filesystems(name, description, class, stage) VALUES ('dwh', 'filesys
 INSERT INTO residents(name, description, account, dbs_id, bucket_id, filesystem_id) VALUES ('oci.compartment.xxx', 'service description', 'oci.tenancy.xxx', 2, 1, 1);
 
 
+
+-- Other Scripts
+
+CREATE TABLE vpcs (
+    id SERIAL,
+    name VARCHAR(32) UNIQUE,
+    description TEXT,
+    cidr_block TEXT,
+    class SMALLINT DEFAULT 1,
+    stage SMALLINT DEFAULT 1,
+    vpc_id TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
+
+
+
 https://github.com/go-pg/pg/issues/654

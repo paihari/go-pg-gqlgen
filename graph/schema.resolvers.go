@@ -10,8 +10,8 @@ import (
 	"os"
 
 	pg "github.com/go-pg/pg/v10"
-	"github.com/paihari/go-pg-gqlgen/graph/model"
 	"github.com/paihari/go-pg-gqlgen/awscompose"
+	"github.com/paihari/go-pg-gqlgen/graph/model"
 )
 
 // CreateMovie is the resolver for the createMovie field.
@@ -41,8 +41,10 @@ func (r *mutationResolver) CreateMovie(ctx context.Context, input model.NewMovie
 
 // CreateBucket is the resolver for the createBucket field.
 func (r *mutationResolver) CreateBucket(ctx context.Context, input model.NewBucket) (*model.Bucket, error) {
-
-	awscompose.CreateBucket(input.Name);
+	awscompose.CreateBucket(input.Name)
+	//awscompose.CreateVpc();
+	//awscompose.CreateInternetGateway()
+	//awscompose.CreateSubnet()
 
 	bucket := model.Bucket{
 		Name:        input.Name,
@@ -482,6 +484,37 @@ func (r *mutationResolver) CreateAgreement(ctx context.Context, input model.NewA
 	return &agreement, nil
 }
 
+// CreateVpc is the resolver for the createVpc field.
+func (r *mutationResolver) CreateVpc(ctx context.Context, input model.NewVpc) (*model.Vpc, error) {
+	vpcId1 := awscompose.CreateVpc(input.CidrBlock)
+	fmt.Println("THE VPC ID")
+	fmt.Println(vpcId1)
+	
+	vpc := model.Vpc{
+		Name:        input.Name,
+		Description: input.Description,
+		CidrBlock:   input.CidrBlock,
+		VpcID:       vpcId1,
+	}
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	_, error := db.Model(&vpc).Insert()
+
+	if error != nil {
+		return nil, fmt.Errorf("error inserting new VPC: %v", error)
+	}
+
+	return &vpc, nil
+}
+
 // Movies is the resolver for the movies field.
 func (r *queryResolver) Movies(ctx context.Context) ([]*model.Movie, error) {
 	var movies []*model.Movie
@@ -858,6 +891,27 @@ func (r *queryResolver) Agreements(ctx context.Context) ([]*model.Agreement, err
 	}
 
 	return agreements, nil
+}
+
+// Vpcs is the resolver for the vpcs field.
+func (r *queryResolver) Vpcs(ctx context.Context) ([]*model.Vpc, error) {
+	var vpcs []*model.Vpc
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	error := db.Model(&vpcs).Select()
+	if error != nil {
+		return nil, error
+	}
+
+	return vpcs, nil
 }
 
 // Mutation returns MutationResolver implementation.

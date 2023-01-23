@@ -1,3 +1,20 @@
+type Vpc {
+  id: ID!
+  name: String!
+  description: String!
+  cidrBlock: String!
+  vpcId: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewVpc {
+  name: String!
+  description: String!
+  cidrBlock: String!
+}
+
+
 type Agreement {
   id: ID!
   topic: String!
@@ -305,6 +322,7 @@ type Query {
  classes: [Class!]!
  domains: [Domain!]!
  agreements: [Agreement!]!
+ vpcs: [Vpc!]!
 
 #  subscriptions: [Subscription!]!
  
@@ -329,7 +347,7 @@ type Mutation {
  createClass(input: NewClass!): Class!
  createDomain(input: NewDomain!): Domain!
  createAgreement(input: NewAgreement!): Agreement!
- 
+ createVpc(input: NewVpc!): Vpc!
 #  createSubscription(input: NewSubscription!): Subscription!
 
 }

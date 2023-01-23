@@ -215,6 +215,12 @@ type NewTask struct {
 	PrivilegeID int    `json:"privilegeId"`
 }
 
+type NewVpc struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	CidrBlock   string `json:"cidrBlock"`
+}
+
 type Notification struct {
 	ID        string `json:"id"`
 	Control   string `json:"control"`
@@ -273,6 +279,16 @@ type Task struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	PrivilegeID int    `json:"privilegeId"`
+	CreatedAt   string `json:"createdAt"`
+	UpdatedAt   string `json:"updatedAt"`
+}
+
+type Vpc struct {
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	CidrBlock   string `json:"cidrBlock"`
+	VpcID       string `json:"vpcId"`
 	CreatedAt   string `json:"createdAt"`
 	UpdatedAt   string `json:"updatedAt"`
 }
