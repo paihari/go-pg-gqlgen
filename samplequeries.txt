@@ -232,6 +232,22 @@ mutation createInternetGateway {
 }
 
 
+mutation createSubnet {
+  createSubnet(input: {
+    name: "clontrol-subnet-1"
+    description: "Subnet for Control API"
+    vpcId: "vpc-09a78a5ad2d67605b"
+    cidrBlock: "10.0.0.0/24"
+    
+  }) {
+    id
+    subnetId
+
+  }
+}
+
+
+
 
 
 Read

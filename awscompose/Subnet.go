@@ -11,7 +11,7 @@ import (
 
 )
 
-func CreateSubnet(cidrBlock string, vpcId string) {
+func CreateSubnet(cidrBlock string, vpcId string) (subnetId string){
 
 	sess, errSess := session.NewSession(&aws.Config{ 
 		Region: aws.String("us-east-1"),
@@ -41,4 +41,6 @@ func CreateSubnet(cidrBlock string, vpcId string) {
 	}
 	
 	fmt.Println(result)	
+	return *result.Subnet.SubnetId
+
 }

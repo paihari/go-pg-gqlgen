@@ -543,6 +543,35 @@ func (r *mutationResolver) CreateInternetgateway(ctx context.Context, input mode
 	return &internetGateway, nil
 }
 
+// CreateSubnet is the resolver for the createSubnet field.
+func (r *mutationResolver) CreateSubnet(ctx context.Context, input model.NewSubnet) (*model.Subnet, error) {
+	subnetId := awscompose.CreateSubnet(input.CidrBlock, input.VpcID)
+	subnet := model.Subnet{
+		Name:        input.Name,
+		Description: input.Description,
+		CidrBlock:   input.CidrBlock,
+		VpcID:       input.VpcID,
+		SubnetID:    subnetId,
+	}
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	_, error := db.Model(&subnet).Insert()
+
+	if error != nil {
+		return nil, fmt.Errorf("error inserting new Subnet: %v", error)
+	}
+
+	return &subnet, nil
+}
+
 // Movies is the resolver for the movies field.
 func (r *queryResolver) Movies(ctx context.Context) ([]*model.Movie, error) {
 	var movies []*model.Movie
@@ -961,6 +990,27 @@ func (r *queryResolver) Internetgateways(ctx context.Context) ([]*model.Internet
 	}
 
 	return internetgateways, nil
+}
+
+// Subnets is the resolver for the subnets field.
+func (r *queryResolver) Subnets(ctx context.Context) ([]*model.Subnet, error) {
+	var subnets []*model.Subnet
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	error := db.Model(&subnets).Select()
+	if error != nil {
+		return nil, error
+	}
+
+	return subnets, nil
 }
 
 // Mutation returns MutationResolver implementation.

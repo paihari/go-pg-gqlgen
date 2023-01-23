@@ -225,6 +225,13 @@ type NewStage struct {
 	Description string `json:"description"`
 }
 
+type NewSubnet struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	CidrBlock   string `json:"cidrBlock"`
+	VpcID       string `json:"vpcId"`
+}
+
 type NewTask struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
@@ -286,6 +293,17 @@ type Stage struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
+	CreatedAt   string `json:"createdAt"`
+	UpdatedAt   string `json:"updatedAt"`
+}
+
+type Subnet struct {
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	SubnetID    string `json:"subnetId"`
+	CidrBlock   string `json:"cidrBlock"`
+	VpcID       string `json:"vpcId"`
 	CreatedAt   string `json:"createdAt"`
 	UpdatedAt   string `json:"updatedAt"`
 }

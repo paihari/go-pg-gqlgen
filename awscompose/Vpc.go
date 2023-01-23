@@ -35,7 +35,7 @@ func CreateVpc(cidrBlock string)  (vpcId string){
 			}
 		}
 	}
-	
+	fmt.Println(result)
 	return *result.Vpc.VpcId
 
 }

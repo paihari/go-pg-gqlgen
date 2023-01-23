@@ -1,4 +1,21 @@
+type Subnet {
+  id: ID!
+  name: String!
+  description: String!
+  subnetId: String!
+  cidrBlock: String!
+  vpcId: String!
+  createdAt: String!
+  updatedAt: String!
+}
 
+input NewSubnet {
+  name: String!
+  description: String!
+  cidrBlock: String!
+  vpcId: String!
+
+}
 
 type Internetgateway {
   id: ID!
@@ -344,7 +361,8 @@ type Query {
  agreements: [Agreement!]!
  vpcs: [Vpc!]!
  internetgateways: [Internetgateway!]!
-
+ subnets: [Subnet!]!
+ 
 #  subscriptions: [Subscription!]!
  
 }
@@ -370,6 +388,7 @@ type Mutation {
  createAgreement(input: NewAgreement!): Agreement!
  createVpc(input: NewVpc!): Vpc!
  createInternetgateway(input: NewInternetgateway!): Internetgateway!
+ createSubnet(input: NewSubnet!): Subnet!
 #  createSubscription(input: NewSubscription!): Subscription!
 
 }
