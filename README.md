@@ -29,6 +29,7 @@ Tables
 | **residents**  | Yes   |     |
 | **vpcs**  | Yes   |**Yes**     |
 | **internetgateways**  | Yes   |**Yes**     |
+| **subnets**  | Yes   |**Yes**     |
 
 
 
