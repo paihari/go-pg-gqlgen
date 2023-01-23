@@ -27,6 +27,8 @@ Tables
 | **buckets**  | Yes   | **Yes**    |
 | **filesystems**  | Yes   |     |
 | **residents**  | Yes   |     |
+| **vpcs**  | Yes   |**Yes**     |
+
 
 
 
