@@ -8,7 +8,7 @@ Functionalities
 
 Tables 
 
-| Table Name    | GQL Read Write Enabled| Public Cloud Reasource Creation Enabled |
+| Table Name    | GQL Read Write Enabled| Public Cloud Resource Creation Enabled |
 | ------------- | -------------- |-----------------------------------------------
 | domains  | Yes   |        | 
 | classes  | Yes   |     |
