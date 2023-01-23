@@ -30,6 +30,7 @@ Tables
 | **vpcs**  | Yes   |**Yes**     |
 | **internetgateways**  | Yes   |**Yes**     |
 | **subnets**  | Yes   |**Yes**     |
+| **route_tables**  | Yes   |**Yes**     |
 
 
 
