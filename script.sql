@@ -447,6 +447,22 @@ CREATE TABLE network_interfaces (
     PRIMARY KEY(id)
 );
 
+CREATE TABLE elastic_ips (
+    id SERIAL,
+    name VARCHAR(32) UNIQUE,
+    description TEXT,
+    class SMALLINT DEFAULT 1,
+    stage SMALLINT DEFAULT 1,
+    network_interface_id TEXT,
+    allocation_id TEXT,
+    ip_address TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
+
+
+
 
 
 

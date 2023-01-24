@@ -93,6 +93,21 @@ type Domain struct {
 	UpdatedAt   string `json:"updatedAt"`
 }
 
+type ElasticIP struct {
+	ID                 string `json:"id"`
+	Name               string `json:"name"`
+	Description        string `json:"description"`
+	NetworkInterfaceID string `json:"networkInterfaceId"`
+	AllocationID       string `json:"allocationId"`
+	IPAddress          string `json:"ipAddress"`
+	CreatedAt          string `json:"createdAt"`
+	UpdatedAt          string `json:"updatedAt"`
+}
+
+type ElasticIPAllocation struct {
+	AllocationID string `json:"allocationId"`
+}
+
 type Filesystem struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
@@ -185,6 +200,12 @@ type NewDb struct {
 type NewDomain struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
+}
+
+type NewElasticIP struct {
+	Name               string `json:"name"`
+	Description        string `json:"description"`
+	NetworkInterfaceID string `json:"networkInterfaceId"`
 }
 
 type NewFilesystem struct {

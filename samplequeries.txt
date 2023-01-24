@@ -317,6 +317,22 @@ mutation createNetworkInterface {
 eni-0b378b0f6ebf150a4
 
 
+mutation createElasticIp {
+  createElasticIp(input: {
+    name: "control-elastic-ip"
+    description: "Elastic IP for Control API"
+    networkInterfaceId: "eni-0b378b0f6ebf150a4"
+    
+  }) {
+    id
+    allocationId
+
+  }
+}
+
+eipalloc-021337ff40921624e
+
+
 
 
 

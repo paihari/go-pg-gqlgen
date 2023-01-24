@@ -25,7 +25,8 @@ func main() {
 	err := godotenv.Load(); if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-
+	
+	
 	Database := graph.Connect()
 
 	srv := handler.NewDefaultServer(

@@ -136,6 +136,17 @@ type ComplexityRoot struct {
 		UpdatedAt   func(childComplexity int) int
 	}
 
+	ElasticIp struct {
+		AllocationID       func(childComplexity int) int
+		CreatedAt          func(childComplexity int) int
+		Description        func(childComplexity int) int
+		ID                 func(childComplexity int) int
+		IPAddress          func(childComplexity int) int
+		Name               func(childComplexity int) int
+		NetworkInterfaceID func(childComplexity int) int
+		UpdatedAt          func(childComplexity int) int
+	}
+
 	Filesystem struct {
 		Class       func(childComplexity int) int
 		CreatedAt   func(childComplexity int) int
@@ -173,6 +184,7 @@ type ComplexityRoot struct {
 		CreateClass            func(childComplexity int, input model.NewClass) int
 		CreateDb               func(childComplexity int, input model.NewDb) int
 		CreateDomain           func(childComplexity int, input model.NewDomain) int
+		CreateElasticIP        func(childComplexity int, input model.NewElasticIP) int
 		CreateFilesystem       func(childComplexity int, input model.NewFilesystem) int
 		CreateInternetgateway  func(childComplexity int, input model.NewInternetgateway) int
 		CreateMovie            func(childComplexity int, input model.NewMovie) int
@@ -189,6 +201,7 @@ type ComplexityRoot struct {
 		CreateSubnet           func(childComplexity int, input model.NewSubnet) int
 		CreateTask             func(childComplexity int, input model.NewTask) int
 		CreateVpc              func(childComplexity int, input model.NewVpc) int
+		ReleaseElasticIP       func(childComplexity int, input *model.ElasticIPAllocation) int
 	}
 
 	NetworkInterface struct {
@@ -230,6 +243,7 @@ type ComplexityRoot struct {
 		Classes           func(childComplexity int) int
 		Dbs               func(childComplexity int) int
 		Domains           func(childComplexity int) int
+		ElasticIps        func(childComplexity int) int
 		Filesystems       func(childComplexity int) int
 		Internetgateways  func(childComplexity int) int
 		Movies            func(childComplexity int) int
@@ -373,6 +387,8 @@ type MutationResolver interface {
 	CreateRoute(ctx context.Context, input model.NewRoute) (*model.Route, error)
 	CreateSecurityGroup(ctx context.Context, input model.NewSecurityGroup) (*model.SecurityGroup, error)
 	CreateNetworkInterface(ctx context.Context, input model.NewNetworkInterface) (*model.NetworkInterface, error)
+	CreateElasticIP(ctx context.Context, input model.NewElasticIP) (*model.ElasticIP, error)
+	ReleaseElasticIP(ctx context.Context, input *model.ElasticIPAllocation) (string, error)
 }
 type QueryResolver interface {
 	Movies(ctx context.Context) ([]*model.Movie, error)
@@ -400,6 +416,7 @@ type QueryResolver interface {
 	Routes(ctx context.Context) ([]*model.Route, error)
 	SecurityGroups(ctx context.Context) ([]*model.SecurityGroup, error)
 	NetworkInterfaces(ctx context.Context) ([]*model.NetworkInterface, error)
+	ElasticIps(ctx context.Context) ([]*model.ElasticIP, error)
 }
 
 type executableSchema struct {
@@ -865,6 +882,62 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Domain.UpdatedAt(childComplexity), true
 
+	case "ElasticIp.allocationId":
+		if e.complexity.ElasticIp.AllocationID == nil {
+			break
+		}
+
+		return e.complexity.ElasticIp.AllocationID(childComplexity), true
+
+	case "ElasticIp.createdAt":
+		if e.complexity.ElasticIp.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.ElasticIp.CreatedAt(childComplexity), true
+
+	case "ElasticIp.description":
+		if e.complexity.ElasticIp.Description == nil {
+			break
+		}
+
+		return e.complexity.ElasticIp.Description(childComplexity), true
+
+	case "ElasticIp.id":
+		if e.complexity.ElasticIp.ID == nil {
+			break
+		}
+
+		return e.complexity.ElasticIp.ID(childComplexity), true
+
+	case "ElasticIp.ipAddress":
+		if e.complexity.ElasticIp.IPAddress == nil {
+			break
+		}
+
+		return e.complexity.ElasticIp.IPAddress(childComplexity), true
+
+	case "ElasticIp.name":
+		if e.complexity.ElasticIp.Name == nil {
+			break
+		}
+
+		return e.complexity.ElasticIp.Name(childComplexity), true
+
+	case "ElasticIp.networkInterfaceId":
+		if e.complexity.ElasticIp.NetworkInterfaceID == nil {
+			break
+		}
+
+		return e.complexity.ElasticIp.NetworkInterfaceID(childComplexity), true
+
+	case "ElasticIp.updatedAt":
+		if e.complexity.ElasticIp.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.ElasticIp.UpdatedAt(childComplexity), true
+
 	case "Filesystem.class":
 		if e.complexity.Filesystem.Class == nil {
 			break
@@ -1099,6 +1172,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateDomain(childComplexity, args["input"].(model.NewDomain)), true
 
+	case "Mutation.createElasticIp":
+		if e.complexity.Mutation.CreateElasticIP == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createElasticIp_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateElasticIP(childComplexity, args["input"].(model.NewElasticIP)), true
+
 	case "Mutation.createFilesystem":
 		if e.complexity.Mutation.CreateFilesystem == nil {
 			break
@@ -1290,6 +1375,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateVpc(childComplexity, args["input"].(model.NewVpc)), true
+
+	case "Mutation.releaseElasticIp":
+		if e.complexity.Mutation.ReleaseElasticIP == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_releaseElasticIp_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.ReleaseElasticIP(childComplexity, args["input"].(*model.ElasticIPAllocation)), true
 
 	case "NetworkInterface.createdAt":
 		if e.complexity.NetworkInterface.CreatedAt == nil {
@@ -1493,6 +1590,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.Domains(childComplexity), true
+
+	case "Query.elasticIps":
+		if e.complexity.Query.ElasticIps == nil {
+			break
+		}
+
+		return e.complexity.Query.ElasticIps(childComplexity), true
 
 	case "Query.filesystems":
 		if e.complexity.Query.Filesystems == nil {
@@ -2090,6 +2194,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	rc := graphql.GetOperationContext(ctx)
 	ec := executionContext{rc, e}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
+		ec.unmarshalInputElasticIpAllocation,
 		ec.unmarshalInputNewAgreement,
 		ec.unmarshalInputNewAlert,
 		ec.unmarshalInputNewBackup,
@@ -2099,6 +2204,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputNewClass,
 		ec.unmarshalInputNewDb,
 		ec.unmarshalInputNewDomain,
+		ec.unmarshalInputNewElasticIp,
 		ec.unmarshalInputNewFilesystem,
 		ec.unmarshalInputNewInternetgateway,
 		ec.unmarshalInputNewMovie,
@@ -2321,6 +2427,21 @@ func (ec *executionContext) field_Mutation_createDomain_args(ctx context.Context
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNNewDomain2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewDomain(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createElasticIp_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewElasticIP
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewElasticIp2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewElasticIP(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -2561,6 +2682,21 @@ func (ec *executionContext) field_Mutation_createVpc_args(ctx context.Context, r
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNNewVpc2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewVpc(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_releaseElasticIp_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.ElasticIPAllocation
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalOElasticIpAllocation2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐElasticIPAllocation(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5438,6 +5574,358 @@ func (ec *executionContext) fieldContext_Domain_updatedAt(ctx context.Context, f
 	return fc, nil
 }
 
+func (ec *executionContext) _ElasticIp_id(ctx context.Context, field graphql.CollectedField, obj *model.ElasticIP) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ElasticIp_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ElasticIp_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ElasticIp",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ElasticIp_name(ctx context.Context, field graphql.CollectedField, obj *model.ElasticIP) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ElasticIp_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ElasticIp_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ElasticIp",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ElasticIp_description(ctx context.Context, field graphql.CollectedField, obj *model.ElasticIP) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ElasticIp_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ElasticIp_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ElasticIp",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ElasticIp_networkInterfaceId(ctx context.Context, field graphql.CollectedField, obj *model.ElasticIP) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ElasticIp_networkInterfaceId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.NetworkInterfaceID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ElasticIp_networkInterfaceId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ElasticIp",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ElasticIp_allocationId(ctx context.Context, field graphql.CollectedField, obj *model.ElasticIP) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ElasticIp_allocationId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AllocationID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ElasticIp_allocationId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ElasticIp",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ElasticIp_ipAddress(ctx context.Context, field graphql.CollectedField, obj *model.ElasticIP) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ElasticIp_ipAddress(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IPAddress, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ElasticIp_ipAddress(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ElasticIp",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ElasticIp_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.ElasticIP) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ElasticIp_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ElasticIp_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ElasticIp",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ElasticIp_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.ElasticIP) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ElasticIp_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ElasticIp_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ElasticIp",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Filesystem_id(ctx context.Context, field graphql.CollectedField, obj *model.Filesystem) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Filesystem_id(ctx, field)
 	if err != nil {
@@ -7995,6 +8483,134 @@ func (ec *executionContext) fieldContext_Mutation_createNetworkInterface(ctx con
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createElasticIp(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createElasticIp(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateElasticIP(rctx, fc.Args["input"].(model.NewElasticIP))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ElasticIP)
+	fc.Result = res
+	return ec.marshalNElasticIp2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐElasticIP(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createElasticIp(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ElasticIp_id(ctx, field)
+			case "name":
+				return ec.fieldContext_ElasticIp_name(ctx, field)
+			case "description":
+				return ec.fieldContext_ElasticIp_description(ctx, field)
+			case "networkInterfaceId":
+				return ec.fieldContext_ElasticIp_networkInterfaceId(ctx, field)
+			case "allocationId":
+				return ec.fieldContext_ElasticIp_allocationId(ctx, field)
+			case "ipAddress":
+				return ec.fieldContext_ElasticIp_ipAddress(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ElasticIp_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_ElasticIp_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ElasticIp", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createElasticIp_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_releaseElasticIp(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_releaseElasticIp(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().ReleaseElasticIP(rctx, fc.Args["input"].(*model.ElasticIPAllocation))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_releaseElasticIp(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_releaseElasticIp_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _NetworkInterface_id(ctx context.Context, field graphql.CollectedField, obj *model.NetworkInterface) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_NetworkInterface_id(ctx, field)
 	if err != nil {
@@ -10360,6 +10976,68 @@ func (ec *executionContext) fieldContext_Query_networkInterfaces(ctx context.Con
 				return ec.fieldContext_NetworkInterface_updatedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type NetworkInterface", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_elasticIps(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_elasticIps(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ElasticIps(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.ElasticIP)
+	fc.Result = res
+	return ec.marshalNElasticIp2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐElasticIPᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_elasticIps(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ElasticIp_id(ctx, field)
+			case "name":
+				return ec.fieldContext_ElasticIp_name(ctx, field)
+			case "description":
+				return ec.fieldContext_ElasticIp_description(ctx, field)
+			case "networkInterfaceId":
+				return ec.fieldContext_ElasticIp_networkInterfaceId(ctx, field)
+			case "allocationId":
+				return ec.fieldContext_ElasticIp_allocationId(ctx, field)
+			case "ipAddress":
+				return ec.fieldContext_ElasticIp_ipAddress(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ElasticIp_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_ElasticIp_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ElasticIp", field.Name)
 		},
 	}
 	return fc, nil
@@ -15259,6 +15937,34 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputElasticIpAllocation(ctx context.Context, obj interface{}) (model.ElasticIPAllocation, error) {
+	var it model.ElasticIPAllocation
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"allocationId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "allocationId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocationId"))
+			it.AllocationID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputNewAgreement(ctx context.Context, obj interface{}) (model.NewAgreement, error) {
 	var it model.NewAgreement
 	asMap := map[string]interface{}{}
@@ -15654,6 +16360,50 @@ func (ec *executionContext) unmarshalInputNewDomain(ctx context.Context, obj int
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
 			it.Description, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputNewElasticIp(ctx context.Context, obj interface{}) (model.NewElasticIP, error) {
+	var it model.NewElasticIP
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "description", "networkInterfaceId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			it.Description, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "networkInterfaceId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("networkInterfaceId"))
+			it.NetworkInterfaceID, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -17028,6 +17778,83 @@ func (ec *executionContext) _Domain(ctx context.Context, sel ast.SelectionSet, o
 	return out
 }
 
+var elasticIpImplementors = []string{"ElasticIp"}
+
+func (ec *executionContext) _ElasticIp(ctx context.Context, sel ast.SelectionSet, obj *model.ElasticIP) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, elasticIpImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ElasticIp")
+		case "id":
+
+			out.Values[i] = ec._ElasticIp_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "name":
+
+			out.Values[i] = ec._ElasticIp_name(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "description":
+
+			out.Values[i] = ec._ElasticIp_description(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "networkInterfaceId":
+
+			out.Values[i] = ec._ElasticIp_networkInterfaceId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "allocationId":
+
+			out.Values[i] = ec._ElasticIp_allocationId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "ipAddress":
+
+			out.Values[i] = ec._ElasticIp_ipAddress(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createdAt":
+
+			out.Values[i] = ec._ElasticIp_createdAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updatedAt":
+
+			out.Values[i] = ec._ElasticIp_updatedAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var filesystemImplementors = []string{"Filesystem"}
 
 func (ec *executionContext) _Filesystem(ctx context.Context, sel ast.SelectionSet, obj *model.Filesystem) graphql.Marshaler {
@@ -17456,6 +18283,24 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createNetworkInterface(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createElasticIp":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createElasticIp(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "releaseElasticIp":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_releaseElasticIp(ctx, field)
 			})
 
 			if out.Values[i] == graphql.Null {
@@ -18256,6 +19101,29 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_networkInterfaces(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
+		case "elasticIps":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_elasticIps(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -19833,6 +20701,64 @@ func (ec *executionContext) marshalNDomain2ᚖgithubᚗcomᚋpaihariᚋgoᚑpg�
 	return ec._Domain(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNElasticIp2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐElasticIP(ctx context.Context, sel ast.SelectionSet, v model.ElasticIP) graphql.Marshaler {
+	return ec._ElasticIp(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNElasticIp2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐElasticIPᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ElasticIP) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNElasticIp2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐElasticIP(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNElasticIp2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐElasticIP(ctx context.Context, sel ast.SelectionSet, v *model.ElasticIP) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._ElasticIp(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNFilesystem2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐFilesystem(ctx context.Context, sel ast.SelectionSet, v model.Filesystem) graphql.Marshaler {
 	return ec._Filesystem(ctx, sel, &v)
 }
@@ -20137,6 +21063,11 @@ func (ec *executionContext) unmarshalNNewDb2githubᚗcomᚋpaihariᚋgoᚑpgᚑg
 
 func (ec *executionContext) unmarshalNNewDomain2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewDomain(ctx context.Context, v interface{}) (model.NewDomain, error) {
 	res, err := ec.unmarshalInputNewDomain(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewElasticIp2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewElasticIP(ctx context.Context, v interface{}) (model.NewElasticIP, error) {
+	res, err := ec.unmarshalInputNewElasticIp(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -21208,6 +22139,14 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	}
 	res := graphql.MarshalBoolean(*v)
 	return res
+}
+
+func (ec *executionContext) unmarshalOElasticIpAllocation2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐElasticIPAllocation(ctx context.Context, v interface{}) (*model.ElasticIPAllocation, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputElasticIpAllocation(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v interface{}) (*string, error) {

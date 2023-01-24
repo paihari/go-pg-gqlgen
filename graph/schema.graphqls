@@ -1,3 +1,25 @@
+type ElasticIp {
+  id: ID!
+  name: String!
+  description: String!
+  networkInterfaceId: String!
+  allocationId: String!
+  ipAddress: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewElasticIp{
+  name: String!
+  description: String!
+  networkInterfaceId: String!
+
+}
+
+input ElasticIpAllocation {
+  allocationId: String!
+}
+
 type NetworkInterface {
   id: ID!
   name: String!
@@ -444,6 +466,7 @@ type Query {
  routes: [Route!]!
  securityGroups: [SecurityGroup!]!
  networkInterfaces: [NetworkInterface!]!
+ elasticIps: [ElasticIp!]!
 
 
 #  subscriptions: [Subscription!]!
@@ -476,6 +499,9 @@ type Mutation {
  createRoute(input: NewRoute!): Route!
  createSecurityGroup(input: NewSecurityGroup!): SecurityGroup!
  createNetworkInterface(input: NewNetworkInterface!): NetworkInterface!
+ createElasticIp(input: NewElasticIp!): ElasticIp!
+ releaseElasticIp(input: ElasticIpAllocation): String!
+
 
 
 #  createSubscription(input: NewSubscription!): Subscription!
