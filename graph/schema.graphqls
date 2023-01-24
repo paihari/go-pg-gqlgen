@@ -1,3 +1,23 @@
+type NetworkInterface {
+  id: ID!
+  name: String!
+  description: String!
+  securityGroupId: String!
+  subnetId: String!
+  privateIpAddress: String!
+  networkInterfaceId: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewNetworkInterface {
+  name: String!
+  description: String!
+  securityGroupId: String!
+  subnetId: String!
+  privateIpAddress: String!
+}
+
 type SecurityGroup {
   id: ID!
   name: String!
@@ -423,6 +443,8 @@ type Query {
  routetables: [RouteTable!]!
  routes: [Route!]!
  securityGroups: [SecurityGroup!]!
+ networkInterfaces: [NetworkInterface!]!
+
 
 #  subscriptions: [Subscription!]!
  
@@ -453,6 +475,7 @@ type Mutation {
  createRouteTable(input: NewRouteTable!): RouteTable!
  createRoute(input: NewRoute!): Route!
  createSecurityGroup(input: NewSecurityGroup!): SecurityGroup!
+ createNetworkInterface(input: NewNetworkInterface!): NetworkInterface!
 
 
 #  createSubscription(input: NewSubscription!): Subscription!

@@ -299,6 +299,26 @@ mutation createSecurityGroup {
 
 sg-0b96c34016e774d70
 
+mutation createNetworkInterface {
+  createNetworkInterface(input: {
+    name: "control-netwok-interface"
+    description: "Network Interface for Control API"
+    subNetId: "subnet-0c7289f7975498915"
+    securityGroupId: "sg-0b96c34016e774d70"
+    privateIpAddress: "10.0.1.50"
+    
+  }) {
+    id
+    networkInterfaceId
+
+  }
+}
+
+eni-0b378b0f6ebf150a4
+
+
+
+
 
 
 
@@ -467,6 +487,13 @@ query getRoutes {
  }
 }
 
+query getNetworkInterfaces {
+ networkInterfaces{
+     id
+     networkInterfacesId
+     
+ }
+}
 
 
 

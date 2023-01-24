@@ -164,30 +164,43 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateAgreement       func(childComplexity int, input model.NewAgreement) int
-		CreateAlert           func(childComplexity int, input model.NewAlert) int
-		CreateBackup          func(childComplexity int, input model.NewBackup) int
-		CreateBucket          func(childComplexity int, input model.NewBucket) int
-		CreateBudget          func(childComplexity int, input model.NewBudget) int
-		CreateChannel         func(childComplexity int, input model.NewChannel) int
-		CreateClass           func(childComplexity int, input model.NewClass) int
-		CreateDb              func(childComplexity int, input model.NewDb) int
-		CreateDomain          func(childComplexity int, input model.NewDomain) int
-		CreateFilesystem      func(childComplexity int, input model.NewFilesystem) int
-		CreateInternetgateway func(childComplexity int, input model.NewInternetgateway) int
-		CreateMovie           func(childComplexity int, input model.NewMovie) int
-		CreateNotification    func(childComplexity int, input model.NewNotification) int
-		CreatePrivilege       func(childComplexity int, input model.NewPrivilege) int
-		CreateResident        func(childComplexity int, input model.NewResident) int
-		CreateRole            func(childComplexity int, input model.NewRole) int
-		CreateRoute           func(childComplexity int, input model.NewRoute) int
-		CreateRouteTable      func(childComplexity int, input model.NewRouteTable) int
-		CreateSecurityGroup   func(childComplexity int, input model.NewSecurityGroup) int
-		CreateSize            func(childComplexity int, input model.NewSize) int
-		CreateStage           func(childComplexity int, input model.NewStage) int
-		CreateSubnet          func(childComplexity int, input model.NewSubnet) int
-		CreateTask            func(childComplexity int, input model.NewTask) int
-		CreateVpc             func(childComplexity int, input model.NewVpc) int
+		CreateAgreement        func(childComplexity int, input model.NewAgreement) int
+		CreateAlert            func(childComplexity int, input model.NewAlert) int
+		CreateBackup           func(childComplexity int, input model.NewBackup) int
+		CreateBucket           func(childComplexity int, input model.NewBucket) int
+		CreateBudget           func(childComplexity int, input model.NewBudget) int
+		CreateChannel          func(childComplexity int, input model.NewChannel) int
+		CreateClass            func(childComplexity int, input model.NewClass) int
+		CreateDb               func(childComplexity int, input model.NewDb) int
+		CreateDomain           func(childComplexity int, input model.NewDomain) int
+		CreateFilesystem       func(childComplexity int, input model.NewFilesystem) int
+		CreateInternetgateway  func(childComplexity int, input model.NewInternetgateway) int
+		CreateMovie            func(childComplexity int, input model.NewMovie) int
+		CreateNetworkInterface func(childComplexity int, input model.NewNetworkInterface) int
+		CreateNotification     func(childComplexity int, input model.NewNotification) int
+		CreatePrivilege        func(childComplexity int, input model.NewPrivilege) int
+		CreateResident         func(childComplexity int, input model.NewResident) int
+		CreateRole             func(childComplexity int, input model.NewRole) int
+		CreateRoute            func(childComplexity int, input model.NewRoute) int
+		CreateRouteTable       func(childComplexity int, input model.NewRouteTable) int
+		CreateSecurityGroup    func(childComplexity int, input model.NewSecurityGroup) int
+		CreateSize             func(childComplexity int, input model.NewSize) int
+		CreateStage            func(childComplexity int, input model.NewStage) int
+		CreateSubnet           func(childComplexity int, input model.NewSubnet) int
+		CreateTask             func(childComplexity int, input model.NewTask) int
+		CreateVpc              func(childComplexity int, input model.NewVpc) int
+	}
+
+	NetworkInterface struct {
+		CreatedAt          func(childComplexity int) int
+		Description        func(childComplexity int) int
+		ID                 func(childComplexity int) int
+		Name               func(childComplexity int) int
+		NetworkInterfaceID func(childComplexity int) int
+		PrivateIPAddress   func(childComplexity int) int
+		SecurityGroupID    func(childComplexity int) int
+		SubnetID           func(childComplexity int) int
+		UpdatedAt          func(childComplexity int) int
 	}
 
 	Notification struct {
@@ -208,30 +221,31 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Agreements       func(childComplexity int) int
-		Alerts           func(childComplexity int) int
-		Backups          func(childComplexity int) int
-		Buckets          func(childComplexity int) int
-		Budgets          func(childComplexity int) int
-		Channels         func(childComplexity int) int
-		Classes          func(childComplexity int) int
-		Dbs              func(childComplexity int) int
-		Domains          func(childComplexity int) int
-		Filesystems      func(childComplexity int) int
-		Internetgateways func(childComplexity int) int
-		Movies           func(childComplexity int) int
-		Notifications    func(childComplexity int) int
-		Privileges       func(childComplexity int) int
-		Residents        func(childComplexity int) int
-		Roles            func(childComplexity int) int
-		Routes           func(childComplexity int) int
-		Routetables      func(childComplexity int) int
-		SecurityGroups   func(childComplexity int) int
-		Sizes            func(childComplexity int) int
-		Stages           func(childComplexity int) int
-		Subnets          func(childComplexity int) int
-		Tasks            func(childComplexity int) int
-		Vpcs             func(childComplexity int) int
+		Agreements        func(childComplexity int) int
+		Alerts            func(childComplexity int) int
+		Backups           func(childComplexity int) int
+		Buckets           func(childComplexity int) int
+		Budgets           func(childComplexity int) int
+		Channels          func(childComplexity int) int
+		Classes           func(childComplexity int) int
+		Dbs               func(childComplexity int) int
+		Domains           func(childComplexity int) int
+		Filesystems       func(childComplexity int) int
+		Internetgateways  func(childComplexity int) int
+		Movies            func(childComplexity int) int
+		NetworkInterfaces func(childComplexity int) int
+		Notifications     func(childComplexity int) int
+		Privileges        func(childComplexity int) int
+		Residents         func(childComplexity int) int
+		Roles             func(childComplexity int) int
+		Routes            func(childComplexity int) int
+		Routetables       func(childComplexity int) int
+		SecurityGroups    func(childComplexity int) int
+		Sizes             func(childComplexity int) int
+		Stages            func(childComplexity int) int
+		Subnets           func(childComplexity int) int
+		Tasks             func(childComplexity int) int
+		Vpcs              func(childComplexity int) int
 	}
 
 	Resident struct {
@@ -358,6 +372,7 @@ type MutationResolver interface {
 	CreateRouteTable(ctx context.Context, input model.NewRouteTable) (*model.RouteTable, error)
 	CreateRoute(ctx context.Context, input model.NewRoute) (*model.Route, error)
 	CreateSecurityGroup(ctx context.Context, input model.NewSecurityGroup) (*model.SecurityGroup, error)
+	CreateNetworkInterface(ctx context.Context, input model.NewNetworkInterface) (*model.NetworkInterface, error)
 }
 type QueryResolver interface {
 	Movies(ctx context.Context) ([]*model.Movie, error)
@@ -384,6 +399,7 @@ type QueryResolver interface {
 	Routetables(ctx context.Context) ([]*model.RouteTable, error)
 	Routes(ctx context.Context) ([]*model.Route, error)
 	SecurityGroups(ctx context.Context) ([]*model.SecurityGroup, error)
+	NetworkInterfaces(ctx context.Context) ([]*model.NetworkInterface, error)
 }
 
 type executableSchema struct {
@@ -1119,6 +1135,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateMovie(childComplexity, args["input"].(model.NewMovie)), true
 
+	case "Mutation.createNetworkInterface":
+		if e.complexity.Mutation.CreateNetworkInterface == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createNetworkInterface_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateNetworkInterface(childComplexity, args["input"].(model.NewNetworkInterface)), true
+
 	case "Mutation.createNotification":
 		if e.complexity.Mutation.CreateNotification == nil {
 			break
@@ -1262,6 +1290,69 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateVpc(childComplexity, args["input"].(model.NewVpc)), true
+
+	case "NetworkInterface.createdAt":
+		if e.complexity.NetworkInterface.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.NetworkInterface.CreatedAt(childComplexity), true
+
+	case "NetworkInterface.description":
+		if e.complexity.NetworkInterface.Description == nil {
+			break
+		}
+
+		return e.complexity.NetworkInterface.Description(childComplexity), true
+
+	case "NetworkInterface.id":
+		if e.complexity.NetworkInterface.ID == nil {
+			break
+		}
+
+		return e.complexity.NetworkInterface.ID(childComplexity), true
+
+	case "NetworkInterface.name":
+		if e.complexity.NetworkInterface.Name == nil {
+			break
+		}
+
+		return e.complexity.NetworkInterface.Name(childComplexity), true
+
+	case "NetworkInterface.networkInterfaceId":
+		if e.complexity.NetworkInterface.NetworkInterfaceID == nil {
+			break
+		}
+
+		return e.complexity.NetworkInterface.NetworkInterfaceID(childComplexity), true
+
+	case "NetworkInterface.privateIpAddress":
+		if e.complexity.NetworkInterface.PrivateIPAddress == nil {
+			break
+		}
+
+		return e.complexity.NetworkInterface.PrivateIPAddress(childComplexity), true
+
+	case "NetworkInterface.securityGroupId":
+		if e.complexity.NetworkInterface.SecurityGroupID == nil {
+			break
+		}
+
+		return e.complexity.NetworkInterface.SecurityGroupID(childComplexity), true
+
+	case "NetworkInterface.subnetId":
+		if e.complexity.NetworkInterface.SubnetID == nil {
+			break
+		}
+
+		return e.complexity.NetworkInterface.SubnetID(childComplexity), true
+
+	case "NetworkInterface.updatedAt":
+		if e.complexity.NetworkInterface.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.NetworkInterface.UpdatedAt(childComplexity), true
 
 	case "Notification.control":
 		if e.complexity.Notification.Control == nil {
@@ -1423,6 +1514,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.Movies(childComplexity), true
+
+	case "Query.networkInterfaces":
+		if e.complexity.Query.NetworkInterfaces == nil {
+			break
+		}
+
+		return e.complexity.Query.NetworkInterfaces(childComplexity), true
 
 	case "Query.notifications":
 		if e.complexity.Query.Notifications == nil {
@@ -2004,6 +2102,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputNewFilesystem,
 		ec.unmarshalInputNewInternetgateway,
 		ec.unmarshalInputNewMovie,
+		ec.unmarshalInputNewNetworkInterface,
 		ec.unmarshalInputNewNotification,
 		ec.unmarshalInputNewPrivilege,
 		ec.unmarshalInputNewResident,
@@ -2267,6 +2366,21 @@ func (ec *executionContext) field_Mutation_createMovie_args(ctx context.Context,
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNNewMovie2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewMovie(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createNetworkInterface_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewNetworkInterface
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewNetworkInterface2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewNetworkInterface(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -7806,6 +7920,477 @@ func (ec *executionContext) fieldContext_Mutation_createSecurityGroup(ctx contex
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createNetworkInterface(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createNetworkInterface(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateNetworkInterface(rctx, fc.Args["input"].(model.NewNetworkInterface))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.NetworkInterface)
+	fc.Result = res
+	return ec.marshalNNetworkInterface2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNetworkInterface(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createNetworkInterface(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_NetworkInterface_id(ctx, field)
+			case "name":
+				return ec.fieldContext_NetworkInterface_name(ctx, field)
+			case "description":
+				return ec.fieldContext_NetworkInterface_description(ctx, field)
+			case "securityGroupId":
+				return ec.fieldContext_NetworkInterface_securityGroupId(ctx, field)
+			case "subnetId":
+				return ec.fieldContext_NetworkInterface_subnetId(ctx, field)
+			case "privateIpAddress":
+				return ec.fieldContext_NetworkInterface_privateIpAddress(ctx, field)
+			case "networkInterfaceId":
+				return ec.fieldContext_NetworkInterface_networkInterfaceId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_NetworkInterface_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_NetworkInterface_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type NetworkInterface", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createNetworkInterface_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _NetworkInterface_id(ctx context.Context, field graphql.CollectedField, obj *model.NetworkInterface) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NetworkInterface_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NetworkInterface_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NetworkInterface",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _NetworkInterface_name(ctx context.Context, field graphql.CollectedField, obj *model.NetworkInterface) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NetworkInterface_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NetworkInterface_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NetworkInterface",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _NetworkInterface_description(ctx context.Context, field graphql.CollectedField, obj *model.NetworkInterface) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NetworkInterface_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NetworkInterface_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NetworkInterface",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _NetworkInterface_securityGroupId(ctx context.Context, field graphql.CollectedField, obj *model.NetworkInterface) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NetworkInterface_securityGroupId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SecurityGroupID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NetworkInterface_securityGroupId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NetworkInterface",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _NetworkInterface_subnetId(ctx context.Context, field graphql.CollectedField, obj *model.NetworkInterface) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NetworkInterface_subnetId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SubnetID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NetworkInterface_subnetId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NetworkInterface",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _NetworkInterface_privateIpAddress(ctx context.Context, field graphql.CollectedField, obj *model.NetworkInterface) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NetworkInterface_privateIpAddress(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PrivateIPAddress, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NetworkInterface_privateIpAddress(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NetworkInterface",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _NetworkInterface_networkInterfaceId(ctx context.Context, field graphql.CollectedField, obj *model.NetworkInterface) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NetworkInterface_networkInterfaceId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.NetworkInterfaceID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NetworkInterface_networkInterfaceId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NetworkInterface",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _NetworkInterface_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.NetworkInterface) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NetworkInterface_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NetworkInterface_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NetworkInterface",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _NetworkInterface_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.NetworkInterface) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NetworkInterface_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NetworkInterface_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NetworkInterface",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Notification_id(ctx context.Context, field graphql.CollectedField, obj *model.Notification) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Notification_id(ctx, field)
 	if err != nil {
@@ -9711,6 +10296,70 @@ func (ec *executionContext) fieldContext_Query_securityGroups(ctx context.Contex
 				return ec.fieldContext_SecurityGroup_updatedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type SecurityGroup", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_networkInterfaces(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_networkInterfaces(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().NetworkInterfaces(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.NetworkInterface)
+	fc.Result = res
+	return ec.marshalNNetworkInterface2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNetworkInterfaceᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_networkInterfaces(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_NetworkInterface_id(ctx, field)
+			case "name":
+				return ec.fieldContext_NetworkInterface_name(ctx, field)
+			case "description":
+				return ec.fieldContext_NetworkInterface_description(ctx, field)
+			case "securityGroupId":
+				return ec.fieldContext_NetworkInterface_securityGroupId(ctx, field)
+			case "subnetId":
+				return ec.fieldContext_NetworkInterface_subnetId(ctx, field)
+			case "privateIpAddress":
+				return ec.fieldContext_NetworkInterface_privateIpAddress(ctx, field)
+			case "networkInterfaceId":
+				return ec.fieldContext_NetworkInterface_networkInterfaceId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_NetworkInterface_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_NetworkInterface_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type NetworkInterface", field.Name)
 		},
 	}
 	return fc, nil
@@ -15130,6 +15779,66 @@ func (ec *executionContext) unmarshalInputNewMovie(ctx context.Context, obj inte
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputNewNetworkInterface(ctx context.Context, obj interface{}) (model.NewNetworkInterface, error) {
+	var it model.NewNetworkInterface
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "description", "securityGroupId", "subnetId", "privateIpAddress"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			it.Description, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "securityGroupId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("securityGroupId"))
+			it.SecurityGroupID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "subnetId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("subnetId"))
+			it.SubnetID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "privateIpAddress":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("privateIpAddress"))
+			it.PrivateIPAddress, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputNewNotification(ctx context.Context, obj interface{}) (model.NewNotification, error) {
 	var it model.NewNotification
 	asMap := map[string]interface{}{}
@@ -16743,6 +17452,99 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "createNetworkInterface":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createNetworkInterface(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var networkInterfaceImplementors = []string{"NetworkInterface"}
+
+func (ec *executionContext) _NetworkInterface(ctx context.Context, sel ast.SelectionSet, obj *model.NetworkInterface) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, networkInterfaceImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("NetworkInterface")
+		case "id":
+
+			out.Values[i] = ec._NetworkInterface_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "name":
+
+			out.Values[i] = ec._NetworkInterface_name(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "description":
+
+			out.Values[i] = ec._NetworkInterface_description(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "securityGroupId":
+
+			out.Values[i] = ec._NetworkInterface_securityGroupId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "subnetId":
+
+			out.Values[i] = ec._NetworkInterface_subnetId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "privateIpAddress":
+
+			out.Values[i] = ec._NetworkInterface_privateIpAddress(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "networkInterfaceId":
+
+			out.Values[i] = ec._NetworkInterface_networkInterfaceId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createdAt":
+
+			out.Values[i] = ec._NetworkInterface_createdAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updatedAt":
+
+			out.Values[i] = ec._NetworkInterface_updatedAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -17431,6 +18233,29 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_securityGroups(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
+		case "networkInterfaces":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_networkInterfaces(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -19212,6 +20037,64 @@ func (ec *executionContext) marshalNMovie2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑ
 	return ec._Movie(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNNetworkInterface2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNetworkInterface(ctx context.Context, sel ast.SelectionSet, v model.NetworkInterface) graphql.Marshaler {
+	return ec._NetworkInterface(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNNetworkInterface2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNetworkInterfaceᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.NetworkInterface) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNNetworkInterface2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNetworkInterface(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNNetworkInterface2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNetworkInterface(ctx context.Context, sel ast.SelectionSet, v *model.NetworkInterface) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._NetworkInterface(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNNewAgreement2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewAgreement(ctx context.Context, v interface{}) (model.NewAgreement, error) {
 	res, err := ec.unmarshalInputNewAgreement(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -19269,6 +20152,11 @@ func (ec *executionContext) unmarshalNNewInternetgateway2githubᚗcomᚋpaihari�
 
 func (ec *executionContext) unmarshalNNewMovie2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewMovie(ctx context.Context, v interface{}) (model.NewMovie, error) {
 	res, err := ec.unmarshalInputNewMovie(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewNetworkInterface2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewNetworkInterface(ctx context.Context, v interface{}) (model.NewNetworkInterface, error) {
+	res, err := ec.unmarshalInputNewNetworkInterface(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 

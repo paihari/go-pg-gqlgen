@@ -432,6 +432,22 @@ CREATE TABLE security_groups (
     PRIMARY KEY(id)
 );
 
+CREATE TABLE network_interfaces (
+    id SERIAL,
+    name VARCHAR(32) UNIQUE,
+    description TEXT,
+    class SMALLINT DEFAULT 1,
+    stage SMALLINT DEFAULT 1,
+    subnet_id TEXT,
+    security_group_id TEXT, 
+    private_ip_address TEXT,
+    network_interface_id TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
+
+
 
 
 

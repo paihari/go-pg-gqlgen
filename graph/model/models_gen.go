@@ -120,6 +120,18 @@ type Movie struct {
 	ReleaseDate string `json:"releaseDate"`
 }
 
+type NetworkInterface struct {
+	ID                 string `json:"id"`
+	Name               string `json:"name"`
+	Description        string `json:"description"`
+	SecurityGroupID    string `json:"securityGroupId"`
+	SubnetID           string `json:"subnetId"`
+	PrivateIPAddress   string `json:"privateIpAddress"`
+	NetworkInterfaceID string `json:"networkInterfaceId"`
+	CreatedAt          string `json:"createdAt"`
+	UpdatedAt          string `json:"updatedAt"`
+}
+
 type NewAgreement struct {
 	Topic     string `json:"topic"`
 	RoleID    int    `json:"roleId"`
@@ -189,6 +201,14 @@ type NewInternetgateway struct {
 type NewMovie struct {
 	Title string `json:"title"`
 	URL   string `json:"url"`
+}
+
+type NewNetworkInterface struct {
+	Name             string `json:"name"`
+	Description      string `json:"description"`
+	SecurityGroupID  string `json:"securityGroupId"`
+	SubnetID         string `json:"subnetId"`
+	PrivateIPAddress string `json:"privateIpAddress"`
 }
 
 type NewNotification struct {

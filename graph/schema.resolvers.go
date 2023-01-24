@@ -636,10 +636,10 @@ func (r *mutationResolver) CreateSecurityGroup(ctx context.Context, input model.
 	securityGroupId := awscompose.CreateSecurityGroupAndAuthorizeIngressAndEgress(input.Description, input.Name, input.VpcID)
 
 	securityGroup := model.SecurityGroup{
-		Name:              input.Name,
-		Description:       input.Description,
+		Name:            input.Name,
+		Description:     input.Description,
 		SecurityGroupID: securityGroupId,
-		VpcID: input.VpcID,
+		VpcID:           input.VpcID,
 	}
 	connStr := os.Getenv("DB_URL")
 	opt, err := pg.ParseURL(connStr)
@@ -656,6 +656,37 @@ func (r *mutationResolver) CreateSecurityGroup(ctx context.Context, input model.
 	}
 
 	return &securityGroup, nil
+}
+
+// CreateNetworkInterface is the resolver for the createNetworkInterface field.
+func (r *mutationResolver) CreateNetworkInterface(ctx context.Context, input model.NewNetworkInterface) (*model.NetworkInterface, error) {
+	networkInterfaceId := awscompose.CreateNetworkInterface(input.Name, input.Description, input.SubnetID, input.SecurityGroupID, input.PrivateIPAddress)
+
+	networkInterface := model.NetworkInterface{
+		Name:            input.Name,
+		Description:     input.Description,
+		SubnetID: input.SubnetID,
+		SecurityGroupID: input.SecurityGroupID,
+		PrivateIPAddress: input.PrivateIPAddress,
+		NetworkInterfaceID: networkInterfaceId,
+
+	}
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	_, error := db.Model(&networkInterface).Insert()
+
+	if error != nil {
+		return nil, fmt.Errorf("error inserting new network interface: %v", error)
+	}
+
+	return &networkInterface, nil
+
 }
 
 // Movies is the resolver for the movies field.
@@ -1160,6 +1191,29 @@ func (r *queryResolver) SecurityGroups(ctx context.Context) ([]*model.SecurityGr
 	}
 
 	return securityGroups, nil
+}
+
+// NetworkInterfaces is the resolver for the networkInterfaces field.
+func (r *queryResolver) NetworkInterfaces(ctx context.Context) ([]*model.NetworkInterface, error) {
+	var networkInterfaces []*model.NetworkInterface
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	error := db.Model(&networkInterfaces).Select()
+	if error != nil {
+		return nil, error
+	}
+
+	return networkInterfaces, nil
+
+
 }
 
 // Mutation returns MutationResolver implementation.
