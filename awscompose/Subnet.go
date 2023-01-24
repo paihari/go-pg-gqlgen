@@ -10,6 +10,38 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 
 )
+func AssociateRouteTable(routeTableId string, subnetId string) {
+	sess, errSess := session.NewSession(&aws.Config{ 
+		Region: aws.String("us-east-1"),
+	})
+
+	if errSess != nil {
+        fmt.Println(errSess.Error())
+        return
+    }
+
+	svc := ec2.New(sess)
+
+	input := &ec2.AssociateRouteTableInput{
+		RouteTableId: &routeTableId,
+		SubnetId: &subnetId,
+	}
+
+	result, err := svc.AssociateRouteTable(input)
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			switch aerr.Code() {
+			default:
+				fmt.Println(aerr.Error())
+			}
+		} 
+		return
+	}
+	
+	fmt.Println(result)	
+	return
+
+}
 
 func CreateSubnet(cidrBlock string, vpcId string) (subnetId string){
 
