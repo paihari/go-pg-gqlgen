@@ -34,8 +34,7 @@ Tables
 | **routes**  | Yes   |**Yes**     |
 | **Security Group**  | Yes   |**Yes**     |
 | **Network Intarface**  | Yes   |**Yes**     |
-
-
+| **Elastic IP**  | Yes   |**Yes**     |
 
 
 Working Flow
@@ -46,7 +45,7 @@ Working Flow
 5. Associate Subnet with Route Table: DONE
 6. Create Security Group to allow port 22, 80, 443: DONE
 7. Create Network Interface with the ip in the subnet that was created in step 4 DONE
-8. Assign an elastic IP to he network interface created in step 7
+8. Assign an elastic IP to he network interface created in step 7 DONE
 9. Create Ubuntu server and install/enable apache2
 
 
