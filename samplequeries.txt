@@ -217,12 +217,13 @@ mutation createVpc {
     vpcId
   }
 }
+vpc-07a8d1e1713cbc61b
 
 mutation createInternetGateway {
-  createInternetGateway(input: {
-    name: "clontrol-ig-1"
+  createInternetgateway(input: {
+    name: "control-ig-1"
     description: "IG for Control API"
-    vpcId: "vpc-09a78a5ad2d67605b"
+    vpcId: "vpc-07a8d1e1713cbc61b"
     
   }) {
     id
@@ -231,13 +232,48 @@ mutation createInternetGateway {
   }
 }
 
+igw-08abc19d825dfc5e1
+
+mutation createRouteTable {
+  createRouteTable(input: {
+    name: "control-routetable-1"
+    description: "Route Table for Control API"
+    vpcId: "vpc-07a8d1e1713cbc61b"
+    
+    
+  }) {
+    id
+    routeTableId
+
+  }
+}
+
+rtb-0d289ded5ee1b139e
+
+
+
+mutation createRoute {
+  createRoute(input: {
+    name: "clontrol-routetable-3"
+    description: "Route for Control API"
+    cidrBlock: "0.0.0.0/0"
+    internetGatewayId: "igw-08abc19d825dfc5e1"
+    routeTableId: "rtb-0d289ded5ee1b139e"
+  }) {
+    id
+    routeTableId
+
+  }
+}
+
 
 mutation createSubnet {
   createSubnet(input: {
-    name: "clontrol-subnet-1"
+    name: "control-subnet"
     description: "Subnet for Control API"
-    vpcId: "vpc-09a78a5ad2d67605b"
-    cidrBlock: "10.0.0.0/24"
+    vpcId: "vpc-07a8d1e1713cbc61b"
+    cidrBlock: "10.0.1.0/24"
+    routeTableId: "rtb-0d289ded5ee1b139e"
     
   }) {
     id
@@ -246,33 +282,26 @@ mutation createSubnet {
   }
 }
 
-mutation createRouteTable {
-  createRouteTable(input: {
-    name: "clontrol-routetable-1"
-    description: "Route Table for Control API"
-    vpcId: "vpc-09a78a5ad2d67605b"
-    
+subnet-0c7289f7975498915
+
+mutation createSecurityGroup {
+  createSecurityGroup(input: {
+    name: "control-security-group-1"
+    description: "Security Group for Control API"
+    vpcId: "vpc-07a8d1e1713cbc61b"
     
   }) {
     id
-    routeTableId
+    securityGroupId
 
   }
 }
 
-mutation createRoute {
-  createRoute(input: {
-    name: "clontrol-routetable-3"
-    description: "Route for Control API"
-    cidrBlock: "10.0.0.0/14"
-    internetGatewayId: "igw-07fe7199048d884dd"
-    routeTableId: "rtb-06d3c87ea587d8ed5"
-  }) {
-    id
-    routeTableId
+sg-06df6bcc27aceb14f
 
-  }
-}
+
+
+
 
 
 

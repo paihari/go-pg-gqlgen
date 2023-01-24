@@ -182,6 +182,7 @@ type ComplexityRoot struct {
 		CreateRole            func(childComplexity int, input model.NewRole) int
 		CreateRoute           func(childComplexity int, input model.NewRoute) int
 		CreateRouteTable      func(childComplexity int, input model.NewRouteTable) int
+		CreateSecurityGroup   func(childComplexity int, input model.NewSecurityGroup) int
 		CreateSize            func(childComplexity int, input model.NewSize) int
 		CreateStage           func(childComplexity int, input model.NewStage) int
 		CreateSubnet          func(childComplexity int, input model.NewSubnet) int
@@ -225,6 +226,7 @@ type ComplexityRoot struct {
 		Roles            func(childComplexity int) int
 		Routes           func(childComplexity int) int
 		Routetables      func(childComplexity int) int
+		SecurityGroups   func(childComplexity int) int
 		Sizes            func(childComplexity int) int
 		Stages           func(childComplexity int) int
 		Subnets          func(childComplexity int) int
@@ -272,6 +274,16 @@ type ComplexityRoot struct {
 		VpcID        func(childComplexity int) int
 	}
 
+	SecurityGroup struct {
+		CreatedAt       func(childComplexity int) int
+		Description     func(childComplexity int) int
+		ID              func(childComplexity int) int
+		Name            func(childComplexity int) int
+		SecurityGroupID func(childComplexity int) int
+		UpdatedAt       func(childComplexity int) int
+		VpcID           func(childComplexity int) int
+	}
+
 	Size struct {
 		Cores     func(childComplexity int) int
 		CreatedAt func(childComplexity int) int
@@ -290,14 +302,15 @@ type ComplexityRoot struct {
 	}
 
 	Subnet struct {
-		CidrBlock   func(childComplexity int) int
-		CreatedAt   func(childComplexity int) int
-		Description func(childComplexity int) int
-		ID          func(childComplexity int) int
-		Name        func(childComplexity int) int
-		SubnetID    func(childComplexity int) int
-		UpdatedAt   func(childComplexity int) int
-		VpcID       func(childComplexity int) int
+		CidrBlock    func(childComplexity int) int
+		CreatedAt    func(childComplexity int) int
+		Description  func(childComplexity int) int
+		ID           func(childComplexity int) int
+		Name         func(childComplexity int) int
+		RouteTableID func(childComplexity int) int
+		SubnetID     func(childComplexity int) int
+		UpdatedAt    func(childComplexity int) int
+		VpcID        func(childComplexity int) int
 	}
 
 	Task struct {
@@ -344,6 +357,7 @@ type MutationResolver interface {
 	CreateSubnet(ctx context.Context, input model.NewSubnet) (*model.Subnet, error)
 	CreateRouteTable(ctx context.Context, input model.NewRouteTable) (*model.RouteTable, error)
 	CreateRoute(ctx context.Context, input model.NewRoute) (*model.Route, error)
+	CreateSecurityGroup(ctx context.Context, input model.NewSecurityGroup) (*model.SecurityGroup, error)
 }
 type QueryResolver interface {
 	Movies(ctx context.Context) ([]*model.Movie, error)
@@ -369,6 +383,7 @@ type QueryResolver interface {
 	Subnets(ctx context.Context) ([]*model.Subnet, error)
 	Routetables(ctx context.Context) ([]*model.RouteTable, error)
 	Routes(ctx context.Context) ([]*model.Route, error)
+	SecurityGroups(ctx context.Context) ([]*model.SecurityGroup, error)
 }
 
 type executableSchema struct {
@@ -1176,6 +1191,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateRouteTable(childComplexity, args["input"].(model.NewRouteTable)), true
 
+	case "Mutation.createSecurityGroup":
+		if e.complexity.Mutation.CreateSecurityGroup == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createSecurityGroup_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateSecurityGroup(childComplexity, args["input"].(model.NewSecurityGroup)), true
+
 	case "Mutation.createSize":
 		if e.complexity.Mutation.CreateSize == nil {
 			break
@@ -1439,6 +1466,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Routetables(childComplexity), true
 
+	case "Query.securityGroups":
+		if e.complexity.Query.SecurityGroups == nil {
+			break
+		}
+
+		return e.complexity.Query.SecurityGroups(childComplexity), true
+
 	case "Query.sizes":
 		if e.complexity.Query.Sizes == nil {
 			break
@@ -1670,6 +1704,55 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.RouteTable.VpcID(childComplexity), true
 
+	case "SecurityGroup.createdAt":
+		if e.complexity.SecurityGroup.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.SecurityGroup.CreatedAt(childComplexity), true
+
+	case "SecurityGroup.description":
+		if e.complexity.SecurityGroup.Description == nil {
+			break
+		}
+
+		return e.complexity.SecurityGroup.Description(childComplexity), true
+
+	case "SecurityGroup.id":
+		if e.complexity.SecurityGroup.ID == nil {
+			break
+		}
+
+		return e.complexity.SecurityGroup.ID(childComplexity), true
+
+	case "SecurityGroup.name":
+		if e.complexity.SecurityGroup.Name == nil {
+			break
+		}
+
+		return e.complexity.SecurityGroup.Name(childComplexity), true
+
+	case "SecurityGroup.securityGroupId":
+		if e.complexity.SecurityGroup.SecurityGroupID == nil {
+			break
+		}
+
+		return e.complexity.SecurityGroup.SecurityGroupID(childComplexity), true
+
+	case "SecurityGroup.updatedAt":
+		if e.complexity.SecurityGroup.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.SecurityGroup.UpdatedAt(childComplexity), true
+
+	case "SecurityGroup.vpcId":
+		if e.complexity.SecurityGroup.VpcID == nil {
+			break
+		}
+
+		return e.complexity.SecurityGroup.VpcID(childComplexity), true
+
 	case "Size.cores":
 		if e.complexity.Size.Cores == nil {
 			break
@@ -1781,6 +1864,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Subnet.Name(childComplexity), true
+
+	case "Subnet.routeTableId":
+		if e.complexity.Subnet.RouteTableID == nil {
+			break
+		}
+
+		return e.complexity.Subnet.RouteTableID(childComplexity), true
 
 	case "Subnet.subnetId":
 		if e.complexity.Subnet.SubnetID == nil {
@@ -1920,6 +2010,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputNewRole,
 		ec.unmarshalInputNewRoute,
 		ec.unmarshalInputNewRouteTable,
+		ec.unmarshalInputNewSecurityGroup,
 		ec.unmarshalInputNewSize,
 		ec.unmarshalInputNewStage,
 		ec.unmarshalInputNewSubnet,
@@ -2266,6 +2357,21 @@ func (ec *executionContext) field_Mutation_createRoute_args(ctx context.Context,
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNNewRoute2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewRoute(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createSecurityGroup_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewSecurityGroup
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewSecurityGroup2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewSecurityGroup(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -7461,6 +7567,8 @@ func (ec *executionContext) fieldContext_Mutation_createSubnet(ctx context.Conte
 				return ec.fieldContext_Subnet_cidrBlock(ctx, field)
 			case "vpcId":
 				return ec.fieldContext_Subnet_vpcId(ctx, field)
+			case "routeTableId":
+				return ec.fieldContext_Subnet_routeTableId(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Subnet_createdAt(ctx, field)
 			case "updatedAt":
@@ -7621,6 +7729,77 @@ func (ec *executionContext) fieldContext_Mutation_createRoute(ctx context.Contex
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_createRoute_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createSecurityGroup(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createSecurityGroup(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateSecurityGroup(rctx, fc.Args["input"].(model.NewSecurityGroup))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.SecurityGroup)
+	fc.Result = res
+	return ec.marshalNSecurityGroup2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐSecurityGroup(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createSecurityGroup(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SecurityGroup_id(ctx, field)
+			case "name":
+				return ec.fieldContext_SecurityGroup_name(ctx, field)
+			case "description":
+				return ec.fieldContext_SecurityGroup_description(ctx, field)
+			case "vpcId":
+				return ec.fieldContext_SecurityGroup_vpcId(ctx, field)
+			case "securityGroupId":
+				return ec.fieldContext_SecurityGroup_securityGroupId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_SecurityGroup_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_SecurityGroup_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SecurityGroup", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createSecurityGroup_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -9342,6 +9521,8 @@ func (ec *executionContext) fieldContext_Query_subnets(ctx context.Context, fiel
 				return ec.fieldContext_Subnet_cidrBlock(ctx, field)
 			case "vpcId":
 				return ec.fieldContext_Subnet_vpcId(ctx, field)
+			case "routeTableId":
+				return ec.fieldContext_Subnet_routeTableId(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Subnet_createdAt(ctx, field)
 			case "updatedAt":
@@ -9470,6 +9651,66 @@ func (ec *executionContext) fieldContext_Query_routes(ctx context.Context, field
 				return ec.fieldContext_Route_updatedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Route", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_securityGroups(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_securityGroups(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().SecurityGroups(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.SecurityGroup)
+	fc.Result = res
+	return ec.marshalNSecurityGroup2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐSecurityGroupᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_securityGroups(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SecurityGroup_id(ctx, field)
+			case "name":
+				return ec.fieldContext_SecurityGroup_name(ctx, field)
+			case "description":
+				return ec.fieldContext_SecurityGroup_description(ctx, field)
+			case "vpcId":
+				return ec.fieldContext_SecurityGroup_vpcId(ctx, field)
+			case "securityGroupId":
+				return ec.fieldContext_SecurityGroup_securityGroupId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_SecurityGroup_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_SecurityGroup_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SecurityGroup", field.Name)
 		},
 	}
 	return fc, nil
@@ -10836,6 +11077,314 @@ func (ec *executionContext) fieldContext_RouteTable_updatedAt(ctx context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _SecurityGroup_id(ctx context.Context, field graphql.CollectedField, obj *model.SecurityGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SecurityGroup_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SecurityGroup_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SecurityGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SecurityGroup_name(ctx context.Context, field graphql.CollectedField, obj *model.SecurityGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SecurityGroup_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SecurityGroup_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SecurityGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SecurityGroup_description(ctx context.Context, field graphql.CollectedField, obj *model.SecurityGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SecurityGroup_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SecurityGroup_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SecurityGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SecurityGroup_vpcId(ctx context.Context, field graphql.CollectedField, obj *model.SecurityGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SecurityGroup_vpcId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.VpcID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SecurityGroup_vpcId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SecurityGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SecurityGroup_securityGroupId(ctx context.Context, field graphql.CollectedField, obj *model.SecurityGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SecurityGroup_securityGroupId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SecurityGroupID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SecurityGroup_securityGroupId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SecurityGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SecurityGroup_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.SecurityGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SecurityGroup_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SecurityGroup_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SecurityGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SecurityGroup_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.SecurityGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SecurityGroup_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SecurityGroup_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SecurityGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Size_id(ctx context.Context, field graphql.CollectedField, obj *model.Size) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Size_id(ctx, field)
 	if err != nil {
@@ -11572,6 +12121,50 @@ func (ec *executionContext) _Subnet_vpcId(ctx context.Context, field graphql.Col
 }
 
 func (ec *executionContext) fieldContext_Subnet_vpcId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Subnet",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Subnet_routeTableId(ctx context.Context, field graphql.CollectedField, obj *model.Subnet) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Subnet_routeTableId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RouteTableID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Subnet_routeTableId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Subnet",
 		Field:      field,
@@ -14809,6 +15402,50 @@ func (ec *executionContext) unmarshalInputNewRouteTable(ctx context.Context, obj
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputNewSecurityGroup(ctx context.Context, obj interface{}) (model.NewSecurityGroup, error) {
+	var it model.NewSecurityGroup
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "description", "vpcId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			it.Description, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "vpcId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("vpcId"))
+			it.VpcID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputNewSize(ctx context.Context, obj interface{}) (model.NewSize, error) {
 	var it model.NewSize
 	asMap := map[string]interface{}{}
@@ -14896,7 +15533,7 @@ func (ec *executionContext) unmarshalInputNewSubnet(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "cidrBlock", "vpcId"}
+	fieldsInOrder := [...]string{"name", "description", "cidrBlock", "vpcId", "routeTableId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -14932,6 +15569,14 @@ func (ec *executionContext) unmarshalInputNewSubnet(ctx context.Context, obj int
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("vpcId"))
 			it.VpcID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "routeTableId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("routeTableId"))
+			it.RouteTableID, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16089,6 +16734,15 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "createSecurityGroup":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createSecurityGroup(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -16767,6 +17421,29 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
+		case "securityGroups":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_securityGroups(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
 		case "__type":
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
@@ -17070,6 +17747,76 @@ func (ec *executionContext) _RouteTable(ctx context.Context, sel ast.SelectionSe
 	return out
 }
 
+var securityGroupImplementors = []string{"SecurityGroup"}
+
+func (ec *executionContext) _SecurityGroup(ctx context.Context, sel ast.SelectionSet, obj *model.SecurityGroup) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, securityGroupImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("SecurityGroup")
+		case "id":
+
+			out.Values[i] = ec._SecurityGroup_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "name":
+
+			out.Values[i] = ec._SecurityGroup_name(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "description":
+
+			out.Values[i] = ec._SecurityGroup_description(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "vpcId":
+
+			out.Values[i] = ec._SecurityGroup_vpcId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "securityGroupId":
+
+			out.Values[i] = ec._SecurityGroup_securityGroupId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createdAt":
+
+			out.Values[i] = ec._SecurityGroup_createdAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updatedAt":
+
+			out.Values[i] = ec._SecurityGroup_updatedAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var sizeImplementors = []string{"Size"}
 
 func (ec *executionContext) _Size(ctx context.Context, sel ast.SelectionSet, obj *model.Size) graphql.Marshaler {
@@ -17237,6 +17984,13 @@ func (ec *executionContext) _Subnet(ctx context.Context, sel ast.SelectionSet, o
 		case "vpcId":
 
 			out.Values[i] = ec._Subnet_vpcId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "routeTableId":
+
+			out.Values[i] = ec._Subnet_routeTableId(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
@@ -18548,6 +19302,11 @@ func (ec *executionContext) unmarshalNNewRouteTable2githubᚗcomᚋpaihariᚋgo�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNNewSecurityGroup2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewSecurityGroup(ctx context.Context, v interface{}) (model.NewSecurityGroup, error) {
+	res, err := ec.unmarshalInputNewSecurityGroup(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNNewSize2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewSize(ctx context.Context, v interface{}) (model.NewSize, error) {
 	res, err := ec.unmarshalInputNewSize(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -18919,6 +19678,64 @@ func (ec *executionContext) marshalNRouteTable2ᚖgithubᚗcomᚋpaihariᚋgoᚑ
 		return graphql.Null
 	}
 	return ec._RouteTable(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNSecurityGroup2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐSecurityGroup(ctx context.Context, sel ast.SelectionSet, v model.SecurityGroup) graphql.Marshaler {
+	return ec._SecurityGroup(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNSecurityGroup2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐSecurityGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.SecurityGroup) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNSecurityGroup2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐSecurityGroup(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNSecurityGroup2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐSecurityGroup(ctx context.Context, sel ast.SelectionSet, v *model.SecurityGroup) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._SecurityGroup(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNSize2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐSize(ctx context.Context, sel ast.SelectionSet, v model.Size) graphql.Marshaler {

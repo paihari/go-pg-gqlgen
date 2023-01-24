@@ -376,19 +376,6 @@ CREATE TABLE internetgateways (
     PRIMARY KEY(id)
 );
 
-CREATE TABLE subnets (
-    id SERIAL,
-    name VARCHAR(32) UNIQUE,
-    description TEXT,
-    class SMALLINT DEFAULT 1,
-    stage SMALLINT DEFAULT 1,
-    subnet_id TEXT,
-    cidr_block TEXT,
-    vpc_id TEXT,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    PRIMARY KEY(id)
-);
 
 CREATE TABLE route_tables (
     id SERIAL,
@@ -416,6 +403,35 @@ CREATE TABLE routes (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     PRIMARY KEY(id)
 );
+
+CREATE TABLE subnets (
+    id SERIAL,
+    name VARCHAR(32) UNIQUE,
+    description TEXT,
+    class SMALLINT DEFAULT 1,
+    stage SMALLINT DEFAULT 1,
+    subnet_id TEXT,
+    cidr_block TEXT,
+    vpc_id TEXT,
+    route_table_id TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE security_groups (
+    id SERIAL,
+    name VARCHAR(32) UNIQUE,
+    description TEXT,
+    class SMALLINT DEFAULT 1,
+    stage SMALLINT DEFAULT 1,
+    vpc_id TEXT,
+    security_group_id TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
+
 
 
 

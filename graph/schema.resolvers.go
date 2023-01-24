@@ -546,12 +546,14 @@ func (r *mutationResolver) CreateInternetgateway(ctx context.Context, input mode
 // CreateSubnet is the resolver for the createSubnet field.
 func (r *mutationResolver) CreateSubnet(ctx context.Context, input model.NewSubnet) (*model.Subnet, error) {
 	subnetId := awscompose.CreateSubnet(input.CidrBlock, input.VpcID)
+	awscompose.AssociateRouteTable(input.RouteTableID, subnetId)
 	subnet := model.Subnet{
-		Name:        input.Name,
-		Description: input.Description,
-		CidrBlock:   input.CidrBlock,
-		VpcID:       input.VpcID,
-		SubnetID:    subnetId,
+		Name:         input.Name,
+		Description:  input.Description,
+		CidrBlock:    input.CidrBlock,
+		VpcID:        input.VpcID,
+		SubnetID:     subnetId,
+		RouteTableID: input.RouteTableID,
 	}
 
 	connStr := os.Getenv("DB_URL")
@@ -603,16 +605,14 @@ func (r *mutationResolver) CreateRouteTable(ctx context.Context, input model.New
 
 // CreateRoute is the resolver for the createRoute field.
 func (r *mutationResolver) CreateRoute(ctx context.Context, input model.NewRoute) (*model.Route, error) {
-	
 	awscompose.CreateRoute(input.CidrBlock, input.InternetGatewayID, input.RouteTableID)
 
 	route := model.Route{
-		Name:         input.Name,
-		Description:  input.Description,
-		CidrBlock: input.CidrBlock,
+		Name:              input.Name,
+		Description:       input.Description,
+		CidrBlock:         input.CidrBlock,
 		InternetGatewayID: input.InternetGatewayID,
-		RouteTableID: input.RouteTableID,
-		
+		RouteTableID:      input.RouteTableID,
 	}
 	connStr := os.Getenv("DB_URL")
 	opt, err := pg.ParseURL(connStr)
@@ -629,6 +629,33 @@ func (r *mutationResolver) CreateRoute(ctx context.Context, input model.NewRoute
 	}
 
 	return &route, nil
+}
+
+// CreateSecurityGroup is the resolver for the createSecurityGroup field.
+func (r *mutationResolver) CreateSecurityGroup(ctx context.Context, input model.NewSecurityGroup) (*model.SecurityGroup, error) {
+	securityGroupId := awscompose.CreateSecurityGroupAndAuthorizeIngressAndEgress(input.Description, input.Name, input.VpcID)
+
+	securityGroup := model.SecurityGroup{
+		Name:              input.Name,
+		Description:       input.Description,
+		SecurityGroupID: securityGroupId,
+		VpcID: input.VpcID,
+	}
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	_, error := db.Model(&securityGroup).Insert()
+
+	if error != nil {
+		return nil, fmt.Errorf("error inserting new securityGroup: %v", error)
+	}
+
+	return &securityGroup, nil
 }
 
 // Movies is the resolver for the movies field.
@@ -1112,6 +1139,27 @@ func (r *queryResolver) Routes(ctx context.Context) ([]*model.Route, error) {
 	}
 
 	return routes, nil
+}
+
+// SecurityGroups is the resolver for the securityGroups field.
+func (r *queryResolver) SecurityGroups(ctx context.Context) ([]*model.SecurityGroup, error) {
+	var securityGroups []*model.SecurityGroup
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	error := db.Model(&securityGroups).Select()
+	if error != nil {
+		return nil, error
+	}
+
+	return securityGroups, nil
 }
 
 // Mutation returns MutationResolver implementation.

@@ -1,3 +1,43 @@
+type SecurityGroup {
+  id: ID!
+  name: String!
+  description: String!
+  vpcId: String!
+  securityGroupId: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewSecurityGroup {
+  name: String!
+  description: String!
+  vpcId: String!
+
+}
+
+
+type Subnet {
+  id: ID!
+  name: String!
+  description: String!
+  subnetId: String!
+  cidrBlock: String!
+  vpcId: String!
+  routeTableId: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewSubnet {
+  name: String!
+  description: String!
+  cidrBlock: String!
+  vpcId: String!
+  routeTableId: String!
+
+}
+
+
 type Route {
   id: ID!
   name: String!
@@ -34,24 +74,6 @@ input NewRouteTable {
   vpcId: String!
 }
 
-type Subnet {
-  id: ID!
-  name: String!
-  description: String!
-  subnetId: String!
-  cidrBlock: String!
-  vpcId: String!
-  createdAt: String!
-  updatedAt: String!
-}
-
-input NewSubnet {
-  name: String!
-  description: String!
-  cidrBlock: String!
-  vpcId: String!
-
-}
 
 type Internetgateway {
   id: ID!
@@ -400,8 +422,8 @@ type Query {
  subnets: [Subnet!]!
  routetables: [RouteTable!]!
  routes: [Route!]!
+ securityGroups: [SecurityGroup!]!
 
- 
 #  subscriptions: [Subscription!]!
  
 }
@@ -430,6 +452,8 @@ type Mutation {
  createSubnet(input: NewSubnet!): Subnet!
  createRouteTable(input: NewRouteTable!): RouteTable!
  createRoute(input: NewRoute!): Route!
+ createSecurityGroup(input: NewSecurityGroup!): SecurityGroup!
+
 
 #  createSubscription(input: NewSubscription!): Subscription!
 

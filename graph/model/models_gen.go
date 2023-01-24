@@ -228,6 +228,12 @@ type NewRouteTable struct {
 	VpcID       string `json:"vpcId"`
 }
 
+type NewSecurityGroup struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	VpcID       string `json:"vpcId"`
+}
+
 type NewSize struct {
 	Name    string `json:"name"`
 	Cores   int    `json:"cores"`
@@ -240,10 +246,11 @@ type NewStage struct {
 }
 
 type NewSubnet struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	CidrBlock   string `json:"cidrBlock"`
-	VpcID       string `json:"vpcId"`
+	Name         string `json:"name"`
+	Description  string `json:"description"`
+	CidrBlock    string `json:"cidrBlock"`
+	VpcID        string `json:"vpcId"`
+	RouteTableID string `json:"routeTableId"`
 }
 
 type NewTask struct {
@@ -315,6 +322,16 @@ type RouteTable struct {
 	UpdatedAt    string `json:"updatedAt"`
 }
 
+type SecurityGroup struct {
+	ID              string `json:"id"`
+	Name            string `json:"name"`
+	Description     string `json:"description"`
+	VpcID           string `json:"vpcId"`
+	SecurityGroupID string `json:"securityGroupId"`
+	CreatedAt       string `json:"createdAt"`
+	UpdatedAt       string `json:"updatedAt"`
+}
+
 type Size struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
@@ -333,14 +350,15 @@ type Stage struct {
 }
 
 type Subnet struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	SubnetID    string `json:"subnetId"`
-	CidrBlock   string `json:"cidrBlock"`
-	VpcID       string `json:"vpcId"`
-	CreatedAt   string `json:"createdAt"`
-	UpdatedAt   string `json:"updatedAt"`
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	Description  string `json:"description"`
+	SubnetID     string `json:"subnetId"`
+	CidrBlock    string `json:"cidrBlock"`
+	VpcID        string `json:"vpcId"`
+	RouteTableID string `json:"routeTableId"`
+	CreatedAt    string `json:"createdAt"`
+	UpdatedAt    string `json:"updatedAt"`
 }
 
 type Task struct {
