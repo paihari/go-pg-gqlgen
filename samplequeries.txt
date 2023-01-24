@@ -260,6 +260,19 @@ mutation createRouteTable {
   }
 }
 
+mutation createRoute {
+  createRoute(input: {
+    name: "clontrol-routetable-3"
+    description: "Route for Control API"
+    cidrBlock: "10.0.0.0/14"
+    internetGatewayId: "igw-07fe7199048d884dd"
+    routeTableId: "rtb-06d3c87ea587d8ed5"
+  }) {
+    id
+    routeTableId
+
+  }
+}
 
 
 
@@ -409,6 +422,14 @@ query getInternetGateways {
 
 query getRouteTables {
  routetables{
+     id
+     routeTableId
+     
+ }
+}
+
+query getRoutes {
+ routes{
      id
      routeTableId
      

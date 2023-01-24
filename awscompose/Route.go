@@ -10,8 +10,7 @@ import (
 
 )
 
-func CreateRouteTable(vpcId string) (routeTableId string){
-
+func CreateRoute(cidrBlock string, internetGatewayId string, routeTableId string) {
 	sess, errSess := session.NewSession(&aws.Config{ 
 		Region: aws.String("us-east-1"),
 	})
@@ -22,10 +21,12 @@ func CreateRouteTable(vpcId string) (routeTableId string){
     }
 
 	svc := ec2.New(sess)
-	input := &ec2.CreateRouteTableInput{
-		VpcId:     aws.String(vpcId),
+	input := &ec2.CreateRouteInput{
+		DestinationCidrBlock: &cidrBlock,
+		GatewayId: &internetGatewayId,
+		RouteTableId: &routeTableId,
 	}
-	result, err := svc.CreateRouteTable(input)
+	result, err := svc.CreateRoute(input)
 	if err != nil {
 		if aerr, ok := err.(awserr.Error); ok {
 			switch aerr.Code() {
@@ -36,6 +37,7 @@ func CreateRouteTable(vpcId string) (routeTableId string){
 		return
 	}
 	fmt.Println(result)	
-	return *result.RouteTable.RouteTableId
-}
+	return
 
+
+}

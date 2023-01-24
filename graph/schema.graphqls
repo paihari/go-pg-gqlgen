@@ -1,3 +1,23 @@
+type Route {
+  id: ID!
+  name: String!
+  description: String!
+  cidrBlock: String!
+  internetGatewayId: String!
+  routeTableId: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewRoute {
+  name: String!
+  description: String!
+  cidrBlock: String!
+  internetGatewayId: String!
+  routeTableId: String!
+
+}
+
 type RouteTable {
   id: ID!
   name: String!
@@ -379,6 +399,8 @@ type Query {
  internetgateways: [Internetgateway!]!
  subnets: [Subnet!]!
  routetables: [RouteTable!]!
+ routes: [Route!]!
+
  
 #  subscriptions: [Subscription!]!
  
@@ -407,6 +429,7 @@ type Mutation {
  createInternetgateway(input: NewInternetgateway!): Internetgateway!
  createSubnet(input: NewSubnet!): Subnet!
  createRouteTable(input: NewRouteTable!): RouteTable!
+ createRoute(input: NewRoute!): Route!
 
 #  createSubscription(input: NewSubscription!): Subscription!
 

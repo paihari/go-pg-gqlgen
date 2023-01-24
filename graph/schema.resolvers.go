@@ -575,13 +575,12 @@ func (r *mutationResolver) CreateSubnet(ctx context.Context, input model.NewSubn
 // CreateRouteTable is the resolver for the createRouteTable field.
 func (r *mutationResolver) CreateRouteTable(ctx context.Context, input model.NewRouteTable) (*model.RouteTable, error) {
 	routeTableId := awscompose.CreateRouteTable(input.VpcID)
-	
+
 	routeTable := model.RouteTable{
-		Name:        input.Name,
-		Description: input.Description,
-		VpcID:       input.VpcID,
+		Name:         input.Name,
+		Description:  input.Description,
+		VpcID:        input.VpcID,
 		RouteTableID: routeTableId,
-		
 	}
 
 	connStr := os.Getenv("DB_URL")
@@ -600,7 +599,36 @@ func (r *mutationResolver) CreateRouteTable(ctx context.Context, input model.New
 	}
 
 	return &routeTable, nil
+}
 
+// CreateRoute is the resolver for the createRoute field.
+func (r *mutationResolver) CreateRoute(ctx context.Context, input model.NewRoute) (*model.Route, error) {
+	
+	awscompose.CreateRoute(input.CidrBlock, input.InternetGatewayID, input.RouteTableID)
+
+	route := model.Route{
+		Name:         input.Name,
+		Description:  input.Description,
+		CidrBlock: input.CidrBlock,
+		InternetGatewayID: input.InternetGatewayID,
+		RouteTableID: input.RouteTableID,
+		
+	}
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	_, error := db.Model(&route).Insert()
+
+	if error != nil {
+		return nil, fmt.Errorf("error inserting new Route: %v", error)
+	}
+
+	return &route, nil
 }
 
 // Movies is the resolver for the movies field.
@@ -1063,6 +1091,27 @@ func (r *queryResolver) Routetables(ctx context.Context) ([]*model.RouteTable, e
 	}
 
 	return routeTables, nil
+}
+
+// Routes is the resolver for the routes field.
+func (r *queryResolver) Routes(ctx context.Context) ([]*model.Route, error) {
+	var routes []*model.Route
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	error := db.Model(&routes).Select()
+	if error != nil {
+		return nil, error
+	}
+
+	return routes, nil
 }
 
 // Mutation returns MutationResolver implementation.

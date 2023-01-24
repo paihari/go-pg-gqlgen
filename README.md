@@ -31,6 +31,9 @@ Tables
 | **internetgateways**  | Yes   |**Yes**     |
 | **subnets**  | Yes   |**Yes**     |
 | **route_tables**  | Yes   |**Yes**     |
+| **routes**  | Yes   |**Yes**     |
+
+
 
 
 

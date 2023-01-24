@@ -214,6 +214,14 @@ type NewRole struct {
 	Stage    int `json:"stage"`
 }
 
+type NewRoute struct {
+	Name              string `json:"name"`
+	Description       string `json:"description"`
+	CidrBlock         string `json:"cidrBlock"`
+	InternetGatewayID string `json:"internetGatewayId"`
+	RouteTableID      string `json:"routeTableId"`
+}
+
 type NewRouteTable struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
@@ -284,6 +292,17 @@ type Role struct {
 	Stage     int    `json:"stage"`
 	CreatedAt string `json:"createdAt"`
 	UpdatedAt string `json:"updatedAt"`
+}
+
+type Route struct {
+	ID                string `json:"id"`
+	Name              string `json:"name"`
+	Description       string `json:"description"`
+	CidrBlock         string `json:"cidrBlock"`
+	InternetGatewayID string `json:"internetGatewayId"`
+	RouteTableID      string `json:"routeTableId"`
+	CreatedAt         string `json:"createdAt"`
+	UpdatedAt         string `json:"updatedAt"`
 }
 
 type RouteTable struct {

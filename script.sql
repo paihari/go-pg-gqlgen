@@ -403,6 +403,20 @@ CREATE TABLE route_tables (
     PRIMARY KEY(id)
 );
 
+CREATE TABLE routes (
+    id SERIAL,
+    name VARCHAR(32) UNIQUE,
+    description TEXT,
+    class SMALLINT DEFAULT 1,
+    stage SMALLINT DEFAULT 1,
+    cidr_block TEXT,
+    internet_gateway_id TEXT,
+    route_table_id TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
+
 
 
 
