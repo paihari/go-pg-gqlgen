@@ -206,6 +206,8 @@ mutation createAgreement {
   }
 }
 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 mutation createVpc {
   createVpc(input: {
     name: "clontrol-vpc"
@@ -217,13 +219,14 @@ mutation createVpc {
     vpcId
   }
 }
-vpc-07a8d1e1713cbc61b
+vpc-014c335f0672f2af5
+
 
 mutation createInternetGateway {
   createInternetgateway(input: {
     name: "control-ig-1"
     description: "IG for Control API"
-    vpcId: "vpc-07a8d1e1713cbc61b"
+    vpcId: "vpc-014c335f0672f2af5"
     
   }) {
     id
@@ -232,13 +235,15 @@ mutation createInternetGateway {
   }
 }
 
-igw-08abc19d825dfc5e1
+igw-04cfd31679c1b0885
+
+
 
 mutation createRouteTable {
   createRouteTable(input: {
     name: "control-routetable-1"
     description: "Route Table for Control API"
-    vpcId: "vpc-07a8d1e1713cbc61b"
+    vpcId: "vpc-014c335f0672f2af5"
     
     
   }) {
@@ -248,7 +253,8 @@ mutation createRouteTable {
   }
 }
 
-rtb-0d289ded5ee1b139e
+rtb-0e65477732cbda217
+
 
 
 
@@ -257,8 +263,8 @@ mutation createRoute {
     name: "clontrol-routetable-3"
     description: "Route for Control API"
     cidrBlock: "0.0.0.0/0"
-    internetGatewayId: "igw-08abc19d825dfc5e1"
-    routeTableId: "rtb-0d289ded5ee1b139e"
+    internetGatewayId: "igw-04cfd31679c1b0885"
+    routeTableId: "rtb-0e65477732cbda217"
   }) {
     id
     routeTableId
@@ -271,9 +277,9 @@ mutation createSubnet {
   createSubnet(input: {
     name: "control-subnet"
     description: "Subnet for Control API"
-    vpcId: "vpc-07a8d1e1713cbc61b"
+    vpcId: "vpc-014c335f0672f2af5"
     cidrBlock: "10.0.1.0/24"
-    routeTableId: "rtb-0d289ded5ee1b139e"
+    routeTableId: "rtb-0e65477732cbda217"
     
   }) {
     id
@@ -282,13 +288,14 @@ mutation createSubnet {
   }
 }
 
-subnet-0c7289f7975498915
+subnet-044ab2f8e4abea4ea
+
 
 mutation createSecurityGroup {
   createSecurityGroup(input: {
     name: "control-security-group-1"
     description: "Security Group for Control API"
-    vpcId: "vpc-07a8d1e1713cbc61b"
+    vpcId: "vpc-014c335f0672f2af5"
     
   }) {
     id
@@ -297,14 +304,15 @@ mutation createSecurityGroup {
   }
 }
 
-sg-0b96c34016e774d70
+sg-008d2cf9ff06075ce
+
 
 mutation createNetworkInterface {
   createNetworkInterface(input: {
     name: "control-netwok-interface"
     description: "Network Interface for Control API"
-    subNetId: "subnet-0c7289f7975498915"
-    securityGroupId: "sg-0b96c34016e774d70"
+    subnetId: "subnet-044ab2f8e4abea4ea"
+    securityGroupId: "sg-008d2cf9ff06075ce"
     privateIpAddress: "10.0.1.50"
     
   }) {
@@ -314,14 +322,15 @@ mutation createNetworkInterface {
   }
 }
 
-eni-0b378b0f6ebf150a4
+eni-03dc77ea54561cc5b
+
 
 
 mutation createElasticIp {
   createElasticIp(input: {
     name: "control-elastic-ip"
     description: "Elastic IP for Control API"
-    networkInterfaceId: "eni-0b378b0f6ebf150a4"
+    networkInterfaceId: "eni-03dc77ea54561cc5b"
     
   }) {
     id
@@ -330,7 +339,8 @@ mutation createElasticIp {
   }
 }
 
-eipalloc-021337ff40921624e
+eipalloc-07d89d5f335abccee
+
 
 mutation createInstance {
   createInstance(input: {
@@ -338,7 +348,7 @@ mutation createInstance {
     description: "EC2 Instance for Control API"
     imageId: "ami-00874d747dde814fa"
     instanceType: "t2.micro"
-    networkInterfaceId: "eni-0b378b0f6ebf150a4"
+    networkInterfaceId: "eni-03dc77ea54561cc5b"
     
   }) {
     id
@@ -347,7 +357,9 @@ mutation createInstance {
   }
 }
 
-i-0730025a187d7b1bc
+i-0278ef129a4f33fc5
+
+
 
 
 

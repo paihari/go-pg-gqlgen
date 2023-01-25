@@ -48,7 +48,9 @@ Working Flow
 7. Create Network Interface with the ip in the subnet that was created in step 4 DONE
 8. Assign an elastic IP to he network interface created in step 7 DONE
 9. Create Ubuntu server DONE
-10. install/enable apache2
+10. Install/enable apache2 DONE
+
+
 
 
 

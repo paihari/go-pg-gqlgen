@@ -25,18 +25,14 @@ func RunInstance(imageId string, instanceType string, networkInterfaceId string)
         return
     }
 
-var userDataString= `#!/bin/bash
+   var userDataString= `#!/bin/bash
 sudo apt update -y
 sudo apt install apache2 -y
 sudo systemctl start apache2
-sudo bash "echo Hello from Golang Control API > /var/www/html/index.html 
 `
     encodedStr := base64.StdEncoding.EncodeToString([]byte(userDataString))
                
-	// userData := ec2.UserData {
-	// 	Data: &encodedStr,
 
-	// }
 
 	svc := ec2.New(sess)
 
@@ -54,6 +50,7 @@ sudo bash "echo Hello from Golang Control API > /var/www/html/index.html
 			},
 		},
 		UserData: aws.String(encodedStr),
+		KeyName: aws.String("connect-key"),
 		
 	}
 
