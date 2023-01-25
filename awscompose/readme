@@ -13,3 +13,11 @@ https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AllocateAddress.html
 / To associate an Elastic IP address with a network interface
 
 https://github.com/aws/aws-sdk-go/blob/main/service/ec2/examples_test.go
+
+
+https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/using-ec2-with-go-sdk.html
+
+https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/go/example_code/ec2/create_instance.go
+
+https://stackoverflow.com/questions/46490843/how-to-pass-script-to-userdata-field-in-ec2-creation-on-aws-lambda
+

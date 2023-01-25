@@ -118,6 +118,17 @@ type Filesystem struct {
 	UpdatedAt   string `json:"updatedAt"`
 }
 
+type Instance struct {
+	ID           string  `json:"id"`
+	Name         string  `json:"name"`
+	Description  string  `json:"description"`
+	InstanceType string  `json:"instanceType"`
+	ImageID      string  `json:"imageId"`
+	InstanceID   *string `json:"instanceId"`
+	CreatedAt    string  `json:"createdAt"`
+	UpdatedAt    string  `json:"updatedAt"`
+}
+
 type Internetgateway struct {
 	ID                string `json:"id"`
 	Name              string `json:"name"`
@@ -211,6 +222,13 @@ type NewElasticIP struct {
 type NewFilesystem struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
+}
+
+type NewInstance struct {
+	Name         string `json:"name"`
+	Description  string `json:"description"`
+	ImageID      string `json:"imageId"`
+	InstanceType string `json:"instanceType"`
 }
 
 type NewInternetgateway struct {

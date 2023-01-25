@@ -1,3 +1,21 @@
+type Instance {
+  id: ID!
+  name: String!
+  description: String!
+  instanceType: String!
+  imageId: String!
+  instanceId: String
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewInstance {
+  name: String!
+  description: String!
+  imageId: String!
+  instanceType: String!
+}
+
 type ElasticIp {
   id: ID!
   name: String!
@@ -467,6 +485,7 @@ type Query {
  securityGroups: [SecurityGroup!]!
  networkInterfaces: [NetworkInterface!]!
  elasticIps: [ElasticIp!]!
+ instances:  [Instance!]!
 
 
 #  subscriptions: [Subscription!]!
@@ -501,9 +520,6 @@ type Mutation {
  createNetworkInterface(input: NewNetworkInterface!): NetworkInterface!
  createElasticIp(input: NewElasticIp!): ElasticIp!
  releaseElasticIp(input: ElasticIpAllocation): String!
-
-
-
+ createInstance(input: NewInstance!): Instance!
 #  createSubscription(input: NewSubscription!): Subscription!
-
 }

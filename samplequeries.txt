@@ -332,6 +332,24 @@ mutation createElasticIp {
 
 eipalloc-021337ff40921624e
 
+mutation createInstance {
+  createInstance(input: {
+    name: "control-instance"
+    description: "EC2 Instance for Control API"
+    imageId: "ami-00874d747dde814fa"
+    instanceType: "t2.micro"
+    
+  }) {
+    id
+    instanceId
+
+  }
+}
+
+i-0730025a187d7b1bc
+
+
+
 
 
 
@@ -507,6 +525,14 @@ query getNetworkInterfaces {
  networkInterfaces{
      id
      networkInterfacesId
+     
+ }
+}
+
+query getInstances {
+ instances{
+     id
+     instanceId
      
  }
 }

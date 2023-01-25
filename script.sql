@@ -461,6 +461,20 @@ CREATE TABLE elastic_ips (
     PRIMARY KEY(id)
 );
 
+CREATE TABLE instances (
+    id SERIAL,
+    name VARCHAR(32) UNIQUE,
+    description TEXT,
+    class SMALLINT DEFAULT 1,
+    stage SMALLINT DEFAULT 1,
+    image_id TEXT,
+    instance_type TEXT,
+    instance_id TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
+
 
 
 

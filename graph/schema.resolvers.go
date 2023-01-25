@@ -695,7 +695,7 @@ func (r *mutationResolver) CreateElasticIP(ctx context.Context, input model.NewE
 		Description:        input.Description,
 		NetworkInterfaceID: input.NetworkInterfaceID,
 		AllocationID:       allocationId,
-		IPAddress: ipAddress,
+		IPAddress:          ipAddress,
 	}
 	connStr := os.Getenv("DB_URL")
 	opt, err := pg.ParseURL(connStr)
@@ -718,6 +718,36 @@ func (r *mutationResolver) CreateElasticIP(ctx context.Context, input model.NewE
 func (r *mutationResolver) ReleaseElasticIP(ctx context.Context, input *model.ElasticIPAllocation) (string, error) {
 	awscompose.ReleaseElasticIpAddress(input.AllocationID)
 	return input.AllocationID, nil
+}
+
+// CreateInstance is the resolver for the createInstance field.
+func (r *mutationResolver) CreateInstance(ctx context.Context, input model.NewInstance) (*model.Instance, error) {
+	instanceId := awscompose.RunInstance(input.ImageID, input.InstanceType)
+
+	instance := model.Instance{
+		Name:               input.Name,
+		Description:        input.Description,
+		ImageID: input.ImageID,
+		InstanceType: input.InstanceType,
+		InstanceID: &instanceId,
+
+	}
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	_, error := db.Model(&instance).Insert()
+
+	if error != nil {
+		return nil, fmt.Errorf("error inserting new network interface: %v", error)
+	}
+
+	return &instance, nil
+
 }
 
 // Movies is the resolver for the movies field.
@@ -1264,6 +1294,11 @@ func (r *queryResolver) ElasticIps(ctx context.Context) ([]*model.ElasticIP, err
 	}
 
 	return elasticIps, nil
+}
+
+// Instances is the resolver for the instances field.
+func (r *queryResolver) Instances(ctx context.Context) ([]*model.Instance, error) {
+	panic(fmt.Errorf("not implemented: Instances - instances"))
 }
 
 // Mutation returns MutationResolver implementation.
