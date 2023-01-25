@@ -4,6 +4,8 @@ import (
 
 	"fmt"
 
+	"encoding/base64"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -23,7 +25,22 @@ func RunInstance(imageId string, instanceType string, networkInterfaceId string)
         return
     }
 
+var userDataString= `#!/bin/bash
+sudo apt update -y
+sudo apt install apache2 -y
+sudo systemctl start apache2
+sudo bash "echo Hello from Golang Control API > /var/www/html/index.html 
+`
+    encodedStr := base64.StdEncoding.EncodeToString([]byte(userDataString))
+               
+	// userData := ec2.UserData {
+	// 	Data: &encodedStr,
+
+	// }
+
 	svc := ec2.New(sess)
+
+	
 
 	input := &ec2.RunInstancesInput {
 		ImageId: aws.String(imageId),
@@ -36,6 +53,7 @@ func RunInstance(imageId string, instanceType string, networkInterfaceId string)
 				NetworkInterfaceId: &networkInterfaceId,
 			},
 		},
+		UserData: aws.String(encodedStr),
 		
 	}
 

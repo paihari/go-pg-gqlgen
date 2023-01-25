@@ -19,5 +19,8 @@ https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/using-ec2-with-go-sdk.
 
 https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/go/example_code/ec2/create_instance.go
 
+https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/go
+
 https://stackoverflow.com/questions/46490843/how-to-pass-script-to-userdata-field-in-ec2-creation-on-aws-lambda
 
+https://www.educative.io/answers/golang-base64-encoding-decoding
