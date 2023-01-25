@@ -725,11 +725,11 @@ func (r *mutationResolver) CreateInstance(ctx context.Context, input model.NewIn
 	instanceId := awscompose.RunInstance(input.ImageID, input.InstanceType, input.NetworkInterfaceID)
 
 	instance := model.Instance{
-		Name:         input.Name,
-		Description:  input.Description,
-		ImageID:      input.ImageID,
-		InstanceType: input.InstanceType,
-		InstanceID:   &instanceId,
+		Name:               input.Name,
+		Description:        input.Description,
+		ImageID:            input.ImageID,
+		InstanceType:       input.InstanceType,
+		InstanceID:         &instanceId,
 		NetworkInterfaceID: input.NetworkInterfaceID,
 	}
 	connStr := os.Getenv("DB_URL")
