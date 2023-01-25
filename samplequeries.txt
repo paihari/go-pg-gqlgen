@@ -338,6 +338,7 @@ mutation createInstance {
     description: "EC2 Instance for Control API"
     imageId: "ami-00874d747dde814fa"
     instanceType: "t2.micro"
+    networkInterfaceId: "eni-0b378b0f6ebf150a4"
     
   }) {
     id

@@ -469,6 +469,7 @@ CREATE TABLE instances (
     stage SMALLINT DEFAULT 1,
     image_id TEXT,
     instance_type TEXT,
+    network_interface_id TEXT,
     instance_id TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),

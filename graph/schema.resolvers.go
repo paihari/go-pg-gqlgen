@@ -722,15 +722,15 @@ func (r *mutationResolver) ReleaseElasticIP(ctx context.Context, input *model.El
 
 // CreateInstance is the resolver for the createInstance field.
 func (r *mutationResolver) CreateInstance(ctx context.Context, input model.NewInstance) (*model.Instance, error) {
-	instanceId := awscompose.RunInstance(input.ImageID, input.InstanceType)
+	instanceId := awscompose.RunInstance(input.ImageID, input.InstanceType, input.NetworkInterfaceID)
 
 	instance := model.Instance{
-		Name:               input.Name,
-		Description:        input.Description,
-		ImageID: input.ImageID,
+		Name:         input.Name,
+		Description:  input.Description,
+		ImageID:      input.ImageID,
 		InstanceType: input.InstanceType,
-		InstanceID: &instanceId,
-
+		InstanceID:   &instanceId,
+		NetworkInterfaceID: input.NetworkInterfaceID,
 	}
 	connStr := os.Getenv("DB_URL")
 	opt, err := pg.ParseURL(connStr)
@@ -747,7 +747,6 @@ func (r *mutationResolver) CreateInstance(ctx context.Context, input model.NewIn
 	}
 
 	return &instance, nil
-
 }
 
 // Movies is the resolver for the movies field.

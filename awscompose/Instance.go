@@ -11,7 +11,7 @@ import (
 
 )
 
-func RunInstance(imageId string, instanceType string) (instanceId string){
+func RunInstance(imageId string, instanceType string, networkInterfaceId string) (instanceId string){
 
 
 	sess, errSess := session.NewSession(&aws.Config{ 
@@ -30,6 +30,12 @@ func RunInstance(imageId string, instanceType string) (instanceId string){
 		InstanceType: aws.String(instanceType),
 		MinCount: aws.Int64(1),
 		MaxCount: aws.Int64(1),
+		NetworkInterfaces: []*ec2.InstanceNetworkInterfaceSpecification{ 
+			{
+				DeviceIndex: aws.Int64(0),
+				NetworkInterfaceId: &networkInterfaceId,
+			},
+		},
 		
 	}
 

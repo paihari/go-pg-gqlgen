@@ -4,6 +4,7 @@ type Instance {
   description: String!
   instanceType: String!
   imageId: String!
+  networkInterfaceId: String!
   instanceId: String
   createdAt: String!
   updatedAt: String!
@@ -14,6 +15,7 @@ input NewInstance {
   description: String!
   imageId: String!
   instanceType: String!
+  networkInterfaceId: String!
 }
 
 type ElasticIp {

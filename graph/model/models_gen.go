@@ -119,14 +119,15 @@ type Filesystem struct {
 }
 
 type Instance struct {
-	ID           string  `json:"id"`
-	Name         string  `json:"name"`
-	Description  string  `json:"description"`
-	InstanceType string  `json:"instanceType"`
-	ImageID      string  `json:"imageId"`
-	InstanceID   *string `json:"instanceId"`
-	CreatedAt    string  `json:"createdAt"`
-	UpdatedAt    string  `json:"updatedAt"`
+	ID                 string  `json:"id"`
+	Name               string  `json:"name"`
+	Description        string  `json:"description"`
+	InstanceType       string  `json:"instanceType"`
+	ImageID            string  `json:"imageId"`
+	NetworkInterfaceID string  `json:"networkInterfaceId"`
+	InstanceID         *string `json:"instanceId"`
+	CreatedAt          string  `json:"createdAt"`
+	UpdatedAt          string  `json:"updatedAt"`
 }
 
 type Internetgateway struct {
@@ -225,10 +226,11 @@ type NewFilesystem struct {
 }
 
 type NewInstance struct {
-	Name         string `json:"name"`
-	Description  string `json:"description"`
-	ImageID      string `json:"imageId"`
-	InstanceType string `json:"instanceType"`
+	Name               string `json:"name"`
+	Description        string `json:"description"`
+	ImageID            string `json:"imageId"`
+	InstanceType       string `json:"instanceType"`
+	NetworkInterfaceID string `json:"networkInterfaceId"`
 }
 
 type NewInternetgateway struct {
