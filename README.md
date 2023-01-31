@@ -51,6 +51,24 @@ Working Flow
 10. Install/enable apache2 DONE
 
 
+Working Flow
+
+1. Clone the repository
+2. RUN > GO111MODULE=on
+3. RUN > go run ./server.go  
+
+Output in console
+> 2023/01/31 12:11:02 connect to http://localhost:8080/ for GraphQL playground
+
+Open in Browser
+
+> http://localhost:8080/
+
+Sample Queries to run: https://github.com/paihari/go-pg-gqlgen/blob/main/samplequeries.txt
+
+
+
+
 
 
 
