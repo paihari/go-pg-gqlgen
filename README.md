@@ -66,6 +66,9 @@ Open in Browser
 
 Sample Queries to run: https://github.com/paihari/go-pg-gqlgen/blob/main/samplequeries.txt
 
+Next Step:
+> Dockerize
+
 
 
 
