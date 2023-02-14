@@ -257,6 +257,18 @@ type NewNotification struct {
 	Scope   string `json:"scope"`
 }
 
+type NewOciCompartment struct {
+	Name                string `json:"name"`
+	Description         string `json:"description"`
+	ParentCompartmentID string `json:"parentCompartmentId"`
+}
+
+type NewOciVcn struct {
+	Name          string `json:"name"`
+	Description   string `json:"description"`
+	CompartmentID string `json:"compartmentId"`
+}
+
 type NewPrivilege struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
@@ -332,6 +344,26 @@ type Notification struct {
 	Scope     string `json:"scope"`
 	CreatedAt string `json:"createdAt"`
 	UpdatedAt string `json:"updatedAt"`
+}
+
+type OciCompartment struct {
+	ID                  string `json:"id"`
+	Name                string `json:"name"`
+	Description         string `json:"description"`
+	ParentCompartmentID string `json:"parentCompartmentId"`
+	OcID                string `json:"ocId"`
+	CreatedAt           string `json:"createdAt"`
+	UpdatedAt           string `json:"updatedAt"`
+}
+
+type OciVcn struct {
+	ID            string `json:"id"`
+	Name          string `json:"name"`
+	Description   string `json:"description"`
+	CompartmentID string `json:"compartmentId"`
+	OcID          string `json:"ocId"`
+	CreatedAt     string `json:"createdAt"`
+	UpdatedAt     string `json:"updatedAt"`
 }
 
 type Privilege struct {

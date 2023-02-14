@@ -1,3 +1,38 @@
+type OciVcn {
+  id: ID!
+  name: String!
+  description: String!
+  compartmentId: String!
+  ocId: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewOciVcn {
+  name: String!
+  description: String!
+  compartmentId: String!
+}
+
+
+type OciCompartment {
+  id: ID!
+  name: String!
+  description: String!
+  parentCompartmentId: String!
+  ocId: String!
+  createdAt: String!
+  updatedAt: String!
+
+}
+
+input NewOciCompartment {
+  name: String!
+  description: String!
+  parentCompartmentId: String!
+}
+
+
 type Instance {
   id: ID!
   name: String!
@@ -488,6 +523,9 @@ type Query {
  networkInterfaces: [NetworkInterface!]!
  elasticIps: [ElasticIp!]!
  instances:  [Instance!]!
+ ociCompartments:  [OciCompartment!]!
+ ociVcns:  [OciVcn!]!
+
 
 
 #  subscriptions: [Subscription!]!
@@ -523,5 +561,12 @@ type Mutation {
  createElasticIp(input: NewElasticIp!): ElasticIp!
  releaseElasticIp(input: ElasticIpAllocation): String!
  createInstance(input: NewInstance!): Instance!
+ createOciCompartment(input: NewOciCompartment!): OciCompartment!
+ createOciVcn(input: NewOciVcn!): OciVcn!
+
 #  createSubscription(input: NewSubscription!): Subscription!
 }
+
+# After Script, After Schema update
+# go run github.com/99designs/gqlgen generate
+# Go To schema.resolvers.go

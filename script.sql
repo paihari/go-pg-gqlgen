@@ -348,7 +348,7 @@ INSERT INTO residents(name, description, account, dbs_id, bucket_id, filesystem_
 
 
 
--- Other Scripts
+-- AWS Scripts
 
 CREATE TABLE vpcs (
     id SERIAL,
@@ -475,6 +475,50 @@ CREATE TABLE instances (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     PRIMARY KEY(id)
 );
+
+
+
+
+-- OCI Ecosystem
+-- OCI Account --> Tenancies --> Parent Campartment
+--                                    --> Child Compartment
+
+--
+-- 01 Create Script
+-- Go to schema.graphql
+
+
+CREATE TABLE oci_compartments (
+    id SERIAL,
+    name VARCHAR(32) UNIQUE,
+    description TEXT,
+    parent_compartment_id TEXT,
+    oc_id TEXT,
+    class SMALLINT DEFAULT 1,
+    stage SMALLINT DEFAULT 1,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE oci_vcns (
+    id SERIAL,
+    name VARCHAR(32) UNIQUE,
+    description TEXT,
+    compartment_id TEXT,
+    oc_id TEXT,
+    class SMALLINT DEFAULT 1,
+    stage SMALLINT DEFAULT 1,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
+
+
+
+
+
+
 
 
 

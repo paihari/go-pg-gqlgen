@@ -360,6 +360,36 @@ mutation createInstance {
 i-0278ef129a4f33fc5
 
 
+---------------------------
+
+mutation createCompartment {
+  createCompartment(input: {
+    name: "clontrol-vpc"
+    description: "VPC for Control API"
+    parentCompartmentId: "ID"
+    
+  }) {
+    id
+    vpcId
+  }
+}
+
+mutation createVcn {
+  createVcn(input: {
+    name: "Service-controller-vcn"
+    description: "Service Controller VCN"
+    compartmentId: "ocid1.compartment.oc1..aaaaaaaabgasayfltz4w25cd4jvwhk3aqbhupznvscksg2d2vxif2lx6hr6q"
+    
+  }) {
+    id
+    vpcId
+  }
+}
+
+
+
+
+
 
 
 

@@ -203,6 +203,8 @@ type ComplexityRoot struct {
 		CreateMovie            func(childComplexity int, input model.NewMovie) int
 		CreateNetworkInterface func(childComplexity int, input model.NewNetworkInterface) int
 		CreateNotification     func(childComplexity int, input model.NewNotification) int
+		CreateOciCompartment   func(childComplexity int, input model.NewOciCompartment) int
+		CreateOciVcn           func(childComplexity int, input model.NewOciVcn) int
 		CreatePrivilege        func(childComplexity int, input model.NewPrivilege) int
 		CreateResident         func(childComplexity int, input model.NewResident) int
 		CreateRole             func(childComplexity int, input model.NewRole) int
@@ -237,6 +239,26 @@ type ComplexityRoot struct {
 		UpdatedAt func(childComplexity int) int
 	}
 
+	OciCompartment struct {
+		CreatedAt           func(childComplexity int) int
+		Description         func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OcID                func(childComplexity int) int
+		ParentCompartmentID func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+	}
+
+	OciVcn struct {
+		CompartmentID func(childComplexity int) int
+		CreatedAt     func(childComplexity int) int
+		Description   func(childComplexity int) int
+		ID            func(childComplexity int) int
+		Name          func(childComplexity int) int
+		OcID          func(childComplexity int) int
+		UpdatedAt     func(childComplexity int) int
+	}
+
 	Privilege struct {
 		CreatedAt   func(childComplexity int) int
 		Description func(childComplexity int) int
@@ -263,6 +285,8 @@ type ComplexityRoot struct {
 		Movies            func(childComplexity int) int
 		NetworkInterfaces func(childComplexity int) int
 		Notifications     func(childComplexity int) int
+		OciCompartments   func(childComplexity int) int
+		OciVcns           func(childComplexity int) int
 		Privileges        func(childComplexity int) int
 		Residents         func(childComplexity int) int
 		Roles             func(childComplexity int) int
@@ -404,6 +428,8 @@ type MutationResolver interface {
 	CreateElasticIP(ctx context.Context, input model.NewElasticIP) (*model.ElasticIP, error)
 	ReleaseElasticIP(ctx context.Context, input *model.ElasticIPAllocation) (string, error)
 	CreateInstance(ctx context.Context, input model.NewInstance) (*model.Instance, error)
+	CreateOciCompartment(ctx context.Context, input model.NewOciCompartment) (*model.OciCompartment, error)
+	CreateOciVcn(ctx context.Context, input model.NewOciVcn) (*model.OciVcn, error)
 }
 type QueryResolver interface {
 	Movies(ctx context.Context) ([]*model.Movie, error)
@@ -433,6 +459,8 @@ type QueryResolver interface {
 	NetworkInterfaces(ctx context.Context) ([]*model.NetworkInterface, error)
 	ElasticIps(ctx context.Context) ([]*model.ElasticIP, error)
 	Instances(ctx context.Context) ([]*model.Instance, error)
+	OciCompartments(ctx context.Context) ([]*model.OciCompartment, error)
+	OciVcns(ctx context.Context) ([]*model.OciVcn, error)
 }
 
 type executableSchema struct {
@@ -1335,6 +1363,30 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateNotification(childComplexity, args["input"].(model.NewNotification)), true
 
+	case "Mutation.createOciCompartment":
+		if e.complexity.Mutation.CreateOciCompartment == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createOciCompartment_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateOciCompartment(childComplexity, args["input"].(model.NewOciCompartment)), true
+
+	case "Mutation.createOciVcn":
+		if e.complexity.Mutation.CreateOciVcn == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createOciVcn_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateOciVcn(childComplexity, args["input"].(model.NewOciVcn)), true
+
 	case "Mutation.createPrivilege":
 		if e.complexity.Mutation.CreatePrivilege == nil {
 			break
@@ -1577,6 +1629,104 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Notification.UpdatedAt(childComplexity), true
 
+	case "OciCompartment.createdAt":
+		if e.complexity.OciCompartment.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.OciCompartment.CreatedAt(childComplexity), true
+
+	case "OciCompartment.description":
+		if e.complexity.OciCompartment.Description == nil {
+			break
+		}
+
+		return e.complexity.OciCompartment.Description(childComplexity), true
+
+	case "OciCompartment.id":
+		if e.complexity.OciCompartment.ID == nil {
+			break
+		}
+
+		return e.complexity.OciCompartment.ID(childComplexity), true
+
+	case "OciCompartment.name":
+		if e.complexity.OciCompartment.Name == nil {
+			break
+		}
+
+		return e.complexity.OciCompartment.Name(childComplexity), true
+
+	case "OciCompartment.ocId":
+		if e.complexity.OciCompartment.OcID == nil {
+			break
+		}
+
+		return e.complexity.OciCompartment.OcID(childComplexity), true
+
+	case "OciCompartment.parentCompartmentId":
+		if e.complexity.OciCompartment.ParentCompartmentID == nil {
+			break
+		}
+
+		return e.complexity.OciCompartment.ParentCompartmentID(childComplexity), true
+
+	case "OciCompartment.updatedAt":
+		if e.complexity.OciCompartment.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.OciCompartment.UpdatedAt(childComplexity), true
+
+	case "OciVcn.compartmentId":
+		if e.complexity.OciVcn.CompartmentID == nil {
+			break
+		}
+
+		return e.complexity.OciVcn.CompartmentID(childComplexity), true
+
+	case "OciVcn.createdAt":
+		if e.complexity.OciVcn.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.OciVcn.CreatedAt(childComplexity), true
+
+	case "OciVcn.description":
+		if e.complexity.OciVcn.Description == nil {
+			break
+		}
+
+		return e.complexity.OciVcn.Description(childComplexity), true
+
+	case "OciVcn.id":
+		if e.complexity.OciVcn.ID == nil {
+			break
+		}
+
+		return e.complexity.OciVcn.ID(childComplexity), true
+
+	case "OciVcn.name":
+		if e.complexity.OciVcn.Name == nil {
+			break
+		}
+
+		return e.complexity.OciVcn.Name(childComplexity), true
+
+	case "OciVcn.ocId":
+		if e.complexity.OciVcn.OcID == nil {
+			break
+		}
+
+		return e.complexity.OciVcn.OcID(childComplexity), true
+
+	case "OciVcn.updatedAt":
+		if e.complexity.OciVcn.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.OciVcn.UpdatedAt(childComplexity), true
+
 	case "Privilege.createdAt":
 		if e.complexity.Privilege.CreatedAt == nil {
 			break
@@ -1730,6 +1880,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.Notifications(childComplexity), true
+
+	case "Query.ociCompartments":
+		if e.complexity.Query.OciCompartments == nil {
+			break
+		}
+
+		return e.complexity.Query.OciCompartments(childComplexity), true
+
+	case "Query.ociVcns":
+		if e.complexity.Query.OciVcns == nil {
+			break
+		}
+
+		return e.complexity.Query.OciVcns(childComplexity), true
 
 	case "Query.privileges":
 		if e.complexity.Query.Privileges == nil {
@@ -2309,6 +2473,8 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputNewMovie,
 		ec.unmarshalInputNewNetworkInterface,
 		ec.unmarshalInputNewNotification,
+		ec.unmarshalInputNewOciCompartment,
+		ec.unmarshalInputNewOciVcn,
 		ec.unmarshalInputNewPrivilege,
 		ec.unmarshalInputNewResident,
 		ec.unmarshalInputNewRole,
@@ -2631,6 +2797,36 @@ func (ec *executionContext) field_Mutation_createNotification_args(ctx context.C
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNNewNotification2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewNotification(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createOciCompartment_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewOciCompartment
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewOciCompartment2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewOciCompartment(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createOciVcn_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewOciVcn
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewOciVcn2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewOciVcn(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -9193,6 +9389,148 @@ func (ec *executionContext) fieldContext_Mutation_createInstance(ctx context.Con
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createOciCompartment(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createOciCompartment(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateOciCompartment(rctx, fc.Args["input"].(model.NewOciCompartment))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.OciCompartment)
+	fc.Result = res
+	return ec.marshalNOciCompartment2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐOciCompartment(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createOciCompartment(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_OciCompartment_id(ctx, field)
+			case "name":
+				return ec.fieldContext_OciCompartment_name(ctx, field)
+			case "description":
+				return ec.fieldContext_OciCompartment_description(ctx, field)
+			case "parentCompartmentId":
+				return ec.fieldContext_OciCompartment_parentCompartmentId(ctx, field)
+			case "ocId":
+				return ec.fieldContext_OciCompartment_ocId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_OciCompartment_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_OciCompartment_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type OciCompartment", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createOciCompartment_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createOciVcn(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createOciVcn(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateOciVcn(rctx, fc.Args["input"].(model.NewOciVcn))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.OciVcn)
+	fc.Result = res
+	return ec.marshalNOciVcn2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐOciVcn(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createOciVcn(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_OciVcn_id(ctx, field)
+			case "name":
+				return ec.fieldContext_OciVcn_name(ctx, field)
+			case "description":
+				return ec.fieldContext_OciVcn_description(ctx, field)
+			case "compartmentId":
+				return ec.fieldContext_OciVcn_compartmentId(ctx, field)
+			case "ocId":
+				return ec.fieldContext_OciVcn_ocId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_OciVcn_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_OciVcn_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type OciVcn", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createOciVcn_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _NetworkInterface_id(ctx context.Context, field graphql.CollectedField, obj *model.NetworkInterface) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_NetworkInterface_id(ctx, field)
 	if err != nil {
@@ -9799,6 +10137,622 @@ func (ec *executionContext) _Notification_updatedAt(ctx context.Context, field g
 func (ec *executionContext) fieldContext_Notification_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Notification",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciCompartment_id(ctx context.Context, field graphql.CollectedField, obj *model.OciCompartment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciCompartment_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciCompartment_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciCompartment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciCompartment_name(ctx context.Context, field graphql.CollectedField, obj *model.OciCompartment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciCompartment_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciCompartment_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciCompartment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciCompartment_description(ctx context.Context, field graphql.CollectedField, obj *model.OciCompartment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciCompartment_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciCompartment_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciCompartment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciCompartment_parentCompartmentId(ctx context.Context, field graphql.CollectedField, obj *model.OciCompartment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciCompartment_parentCompartmentId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ParentCompartmentID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciCompartment_parentCompartmentId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciCompartment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciCompartment_ocId(ctx context.Context, field graphql.CollectedField, obj *model.OciCompartment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciCompartment_ocId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OcID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciCompartment_ocId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciCompartment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciCompartment_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.OciCompartment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciCompartment_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciCompartment_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciCompartment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciCompartment_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.OciCompartment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciCompartment_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciCompartment_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciCompartment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciVcn_id(ctx context.Context, field graphql.CollectedField, obj *model.OciVcn) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciVcn_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciVcn_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciVcn",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciVcn_name(ctx context.Context, field graphql.CollectedField, obj *model.OciVcn) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciVcn_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciVcn_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciVcn",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciVcn_description(ctx context.Context, field graphql.CollectedField, obj *model.OciVcn) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciVcn_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciVcn_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciVcn",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciVcn_compartmentId(ctx context.Context, field graphql.CollectedField, obj *model.OciVcn) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciVcn_compartmentId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CompartmentID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciVcn_compartmentId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciVcn",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciVcn_ocId(ctx context.Context, field graphql.CollectedField, obj *model.OciVcn) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciVcn_ocId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OcID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciVcn_ocId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciVcn",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciVcn_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.OciVcn) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciVcn_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciVcn_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciVcn",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciVcn_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.OciVcn) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciVcn_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciVcn_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciVcn",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -11684,6 +12638,126 @@ func (ec *executionContext) fieldContext_Query_instances(ctx context.Context, fi
 				return ec.fieldContext_Instance_updatedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Instance", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_ociCompartments(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_ociCompartments(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().OciCompartments(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.OciCompartment)
+	fc.Result = res
+	return ec.marshalNOciCompartment2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐOciCompartmentᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_ociCompartments(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_OciCompartment_id(ctx, field)
+			case "name":
+				return ec.fieldContext_OciCompartment_name(ctx, field)
+			case "description":
+				return ec.fieldContext_OciCompartment_description(ctx, field)
+			case "parentCompartmentId":
+				return ec.fieldContext_OciCompartment_parentCompartmentId(ctx, field)
+			case "ocId":
+				return ec.fieldContext_OciCompartment_ocId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_OciCompartment_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_OciCompartment_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type OciCompartment", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_ociVcns(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_ociVcns(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().OciVcns(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.OciVcn)
+	fc.Result = res
+	return ec.marshalNOciVcn2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐOciVcnᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_ociVcns(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_OciVcn_id(ctx, field)
+			case "name":
+				return ec.fieldContext_OciVcn_name(ctx, field)
+			case "description":
+				return ec.fieldContext_OciVcn_description(ctx, field)
+			case "compartmentId":
+				return ec.fieldContext_OciVcn_compartmentId(ctx, field)
+			case "ocId":
+				return ec.fieldContext_OciVcn_ocId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_OciVcn_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_OciVcn_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type OciVcn", field.Name)
 		},
 	}
 	return fc, nil
@@ -17331,6 +18405,94 @@ func (ec *executionContext) unmarshalInputNewNotification(ctx context.Context, o
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputNewOciCompartment(ctx context.Context, obj interface{}) (model.NewOciCompartment, error) {
+	var it model.NewOciCompartment
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "description", "parentCompartmentId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			it.Description, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "parentCompartmentId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("parentCompartmentId"))
+			it.ParentCompartmentID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputNewOciVcn(ctx context.Context, obj interface{}) (model.NewOciVcn, error) {
+	var it model.NewOciVcn
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "description", "compartmentId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			it.Description, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "compartmentId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("compartmentId"))
+			it.CompartmentID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputNewPrivilege(ctx context.Context, obj interface{}) (model.NewPrivilege, error) {
 	var it model.NewPrivilege
 	asMap := map[string]interface{}{}
@@ -19102,6 +20264,24 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "createOciCompartment":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createOciCompartment(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createOciVcn":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createOciVcn(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -19238,6 +20418,146 @@ func (ec *executionContext) _Notification(ctx context.Context, sel ast.Selection
 		case "updatedAt":
 
 			out.Values[i] = ec._Notification_updatedAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var ociCompartmentImplementors = []string{"OciCompartment"}
+
+func (ec *executionContext) _OciCompartment(ctx context.Context, sel ast.SelectionSet, obj *model.OciCompartment) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, ociCompartmentImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("OciCompartment")
+		case "id":
+
+			out.Values[i] = ec._OciCompartment_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "name":
+
+			out.Values[i] = ec._OciCompartment_name(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "description":
+
+			out.Values[i] = ec._OciCompartment_description(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "parentCompartmentId":
+
+			out.Values[i] = ec._OciCompartment_parentCompartmentId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "ocId":
+
+			out.Values[i] = ec._OciCompartment_ocId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createdAt":
+
+			out.Values[i] = ec._OciCompartment_createdAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updatedAt":
+
+			out.Values[i] = ec._OciCompartment_updatedAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var ociVcnImplementors = []string{"OciVcn"}
+
+func (ec *executionContext) _OciVcn(ctx context.Context, sel ast.SelectionSet, obj *model.OciVcn) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, ociVcnImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("OciVcn")
+		case "id":
+
+			out.Values[i] = ec._OciVcn_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "name":
+
+			out.Values[i] = ec._OciVcn_name(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "description":
+
+			out.Values[i] = ec._OciVcn_description(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "compartmentId":
+
+			out.Values[i] = ec._OciVcn_compartmentId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "ocId":
+
+			out.Values[i] = ec._OciVcn_ocId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createdAt":
+
+			out.Values[i] = ec._OciVcn_createdAt(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updatedAt":
+
+			out.Values[i] = ec._OciVcn_updatedAt(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
@@ -19943,6 +21263,52 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_instances(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
+		case "ociCompartments":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_ociCompartments(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
+		case "ociVcns":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_ociVcns(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -21978,6 +23344,16 @@ func (ec *executionContext) unmarshalNNewNotification2githubᚗcomᚋpaihariᚋg
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNNewOciCompartment2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewOciCompartment(ctx context.Context, v interface{}) (model.NewOciCompartment, error) {
+	res, err := ec.unmarshalInputNewOciCompartment(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewOciVcn2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewOciVcn(ctx context.Context, v interface{}) (model.NewOciVcn, error) {
+	res, err := ec.unmarshalInputNewOciVcn(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNNewPrivilege2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐNewPrivilege(ctx context.Context, v interface{}) (model.NewPrivilege, error) {
 	res, err := ec.unmarshalInputNewPrivilege(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -22089,6 +23465,122 @@ func (ec *executionContext) marshalNNotification2ᚖgithubᚗcomᚋpaihariᚋgo�
 		return graphql.Null
 	}
 	return ec._Notification(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNOciCompartment2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐOciCompartment(ctx context.Context, sel ast.SelectionSet, v model.OciCompartment) graphql.Marshaler {
+	return ec._OciCompartment(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNOciCompartment2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐOciCompartmentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.OciCompartment) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNOciCompartment2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐOciCompartment(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNOciCompartment2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐOciCompartment(ctx context.Context, sel ast.SelectionSet, v *model.OciCompartment) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._OciCompartment(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNOciVcn2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐOciVcn(ctx context.Context, sel ast.SelectionSet, v model.OciVcn) graphql.Marshaler {
+	return ec._OciVcn(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNOciVcn2ᚕᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐOciVcnᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.OciVcn) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNOciVcn2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐOciVcn(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNOciVcn2ᚖgithubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐOciVcn(ctx context.Context, sel ast.SelectionSet, v *model.OciVcn) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._OciVcn(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNPrivilege2githubᚗcomᚋpaihariᚋgoᚑpgᚑgqlgenᚋgraphᚋmodelᚐPrivilege(ctx context.Context, sel ast.SelectionSet, v model.Privilege) graphql.Marshaler {

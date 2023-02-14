@@ -12,6 +12,7 @@ import (
 	pg "github.com/go-pg/pg/v10"
 	"github.com/paihari/go-pg-gqlgen/awscompose"
 	"github.com/paihari/go-pg-gqlgen/graph/model"
+	"github.com/paihari/go-pg-gqlgen/ocicompose"
 )
 
 // CreateMovie is the resolver for the createMovie field.
@@ -725,11 +726,11 @@ func (r *mutationResolver) CreateInstance(ctx context.Context, input model.NewIn
 	instanceId := awscompose.RunInstance(input.ImageID, input.InstanceType, input.NetworkInterfaceID)
 
 	instance := model.Instance{
-		Name:         input.Name,
-		Description:  input.Description,
-		ImageID:      input.ImageID,
-		InstanceType: input.InstanceType,
-		InstanceID:   &instanceId,
+		Name:               input.Name,
+		Description:        input.Description,
+		ImageID:            input.ImageID,
+		InstanceType:       input.InstanceType,
+		InstanceID:         &instanceId,
 		NetworkInterfaceID: input.NetworkInterfaceID,
 	}
 	connStr := os.Getenv("DB_URL")
@@ -747,6 +748,61 @@ func (r *mutationResolver) CreateInstance(ctx context.Context, input model.NewIn
 	}
 
 	return &instance, nil
+}
+
+// CreateOciCompartment is the resolver for the createOciCompartment field.
+func (r *mutationResolver) CreateOciCompartment(ctx context.Context, input model.NewOciCompartment) (*model.OciCompartment, error) {
+	ociId := ocicompose.CreateOciCompartment(input.ParentCompartmentID, input.Name, input.Description)
+
+	compartment := model.OciCompartment{
+		Name:                input.Name,
+		Description:         input.Description,
+		ParentCompartmentID: input.ParentCompartmentID,
+		OcID:                ociId,
+	}
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	_, error := db.Model(&compartment).Insert()
+
+	if error != nil {
+		return nil, fmt.Errorf("error inserting new network interface: %v", error)
+	}
+
+	return &compartment, nil
+}
+
+// CreateOciVcn is the resolver for the createOciVcn field.
+func (r *mutationResolver) CreateOciVcn(ctx context.Context, input model.NewOciVcn) (*model.OciVcn, error) {
+	
+	ociId := ocicompose.CreateOciVcn(input.CompartmentID, input.Name, input.Description)
+
+	vcn := model.OciVcn{
+		Name:                input.Name,
+		Description:         input.Description,
+		CompartmentID: input.CompartmentID,
+		OcID:                ociId,
+	}
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	_, error := db.Model(&vcn).Insert()
+
+	if error != nil {
+		return nil, fmt.Errorf("error inserting new OCI VCN: %v", error)
+	}
+
+	return &vcn, nil
 }
 
 // Movies is the resolver for the movies field.
@@ -1298,6 +1354,32 @@ func (r *queryResolver) ElasticIps(ctx context.Context) ([]*model.ElasticIP, err
 // Instances is the resolver for the instances field.
 func (r *queryResolver) Instances(ctx context.Context) ([]*model.Instance, error) {
 	panic(fmt.Errorf("not implemented: Instances - instances"))
+}
+
+// OciCompartments is the resolver for the ociCompartments field.
+func (r *queryResolver) OciCompartments(ctx context.Context) ([]*model.OciCompartment, error) {
+	var ociCompartments []*model.OciCompartment
+
+	connStr := os.Getenv("DB_URL")
+	opt, err := pg.ParseURL(connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	error := db.Model(&ociCompartments).Select()
+	if error != nil {
+		return nil, error
+	}
+
+	return ociCompartments, nil
+}
+
+// OciVcns is the resolver for the ociVcns field.
+func (r *queryResolver) OciVcns(ctx context.Context) ([]*model.OciVcn, error) {
+	panic(fmt.Errorf("not implemented: OciVcns - ociVcns"))
 }
 
 // Mutation returns MutationResolver implementation.
