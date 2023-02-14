@@ -506,6 +506,7 @@ CREATE TABLE oci_vcns (
     name VARCHAR(32) UNIQUE,
     description TEXT,
     compartment_id TEXT,
+    cidr_block TEXT,
     oc_id TEXT,
     class SMALLINT DEFAULT 1,
     stage SMALLINT DEFAULT 1,

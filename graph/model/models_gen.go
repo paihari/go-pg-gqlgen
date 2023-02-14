@@ -267,6 +267,7 @@ type NewOciVcn struct {
 	Name          string `json:"name"`
 	Description   string `json:"description"`
 	CompartmentID string `json:"compartmentId"`
+	CidrBlock     string `json:"cidrBlock"`
 }
 
 type NewPrivilege struct {
@@ -361,6 +362,7 @@ type OciVcn struct {
 	Name          string `json:"name"`
 	Description   string `json:"description"`
 	CompartmentID string `json:"compartmentId"`
+	CidrBlock     string `json:"cidrBlock"`
 	OcID          string `json:"ocId"`
 	CreatedAt     string `json:"createdAt"`
 	UpdatedAt     string `json:"updatedAt"`

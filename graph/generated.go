@@ -250,6 +250,7 @@ type ComplexityRoot struct {
 	}
 
 	OciVcn struct {
+		CidrBlock     func(childComplexity int) int
 		CompartmentID func(childComplexity int) int
 		CreatedAt     func(childComplexity int) int
 		Description   func(childComplexity int) int
@@ -1677,6 +1678,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.OciCompartment.UpdatedAt(childComplexity), true
+
+	case "OciVcn.cidrBlock":
+		if e.complexity.OciVcn.CidrBlock == nil {
+			break
+		}
+
+		return e.complexity.OciVcn.CidrBlock(childComplexity), true
 
 	case "OciVcn.compartmentId":
 		if e.complexity.OciVcn.CompartmentID == nil {
@@ -9507,6 +9515,8 @@ func (ec *executionContext) fieldContext_Mutation_createOciVcn(ctx context.Conte
 				return ec.fieldContext_OciVcn_description(ctx, field)
 			case "compartmentId":
 				return ec.fieldContext_OciVcn_compartmentId(ctx, field)
+			case "cidrBlock":
+				return ec.fieldContext_OciVcn_cidrBlock(ctx, field)
 			case "ocId":
 				return ec.fieldContext_OciVcn_ocId(ctx, field)
 			case "createdAt":
@@ -10619,6 +10629,50 @@ func (ec *executionContext) _OciVcn_compartmentId(ctx context.Context, field gra
 }
 
 func (ec *executionContext) fieldContext_OciVcn_compartmentId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OciVcn",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OciVcn_cidrBlock(ctx context.Context, field graphql.CollectedField, obj *model.OciVcn) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OciVcn_cidrBlock(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CidrBlock, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OciVcn_cidrBlock(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "OciVcn",
 		Field:      field,
@@ -12750,6 +12804,8 @@ func (ec *executionContext) fieldContext_Query_ociVcns(ctx context.Context, fiel
 				return ec.fieldContext_OciVcn_description(ctx, field)
 			case "compartmentId":
 				return ec.fieldContext_OciVcn_compartmentId(ctx, field)
+			case "cidrBlock":
+				return ec.fieldContext_OciVcn_cidrBlock(ctx, field)
 			case "ocId":
 				return ec.fieldContext_OciVcn_ocId(ctx, field)
 			case "createdAt":
@@ -18456,7 +18512,7 @@ func (ec *executionContext) unmarshalInputNewOciVcn(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "compartmentId"}
+	fieldsInOrder := [...]string{"name", "description", "compartmentId", "cidrBlock"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -18484,6 +18540,14 @@ func (ec *executionContext) unmarshalInputNewOciVcn(ctx context.Context, obj int
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("compartmentId"))
 			it.CompartmentID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cidrBlock":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cidrBlock"))
+			it.CidrBlock, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -20537,6 +20601,13 @@ func (ec *executionContext) _OciVcn(ctx context.Context, sel ast.SelectionSet, o
 		case "compartmentId":
 
 			out.Values[i] = ec._OciVcn_compartmentId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "cidrBlock":
+
+			out.Values[i] = ec._OciVcn_cidrBlock(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++

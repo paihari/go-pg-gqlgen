@@ -9,7 +9,7 @@ import (
 	"context"
 )
 
-func CreateOciVcn(compartmentId string, name string, description string) (ociId string) {
+func CreateOciVcn(compartmentId string, name string, description string, cidrBlock string) (ociId string) {
 
 
 	// initialize VirtualNetworkClient
@@ -23,7 +23,7 @@ func CreateOciVcn(compartmentId string, name string, description string) (ociId 
 	}
 	createVcnRequest.CompartmentId = common.String(compartmentId)
 	createVcnRequest.DisplayName = common.String(name)
-	createVcnRequest.CidrBlock = common.String("10.0.0.0/16")
+	createVcnRequest.CidrBlock = common.String(cidrBlock)
 
 	
 	resp, err := client.CreateVcn(ctx, createVcnRequest)

@@ -3,6 +3,7 @@ type OciVcn {
   name: String!
   description: String!
   compartmentId: String!
+  cidrBlock: String!
   ocId: String!
   createdAt: String!
   updatedAt: String!
@@ -12,6 +13,7 @@ input NewOciVcn {
   name: String!
   description: String!
   compartmentId: String!
+  cidrBlock: String!
 }
 
 

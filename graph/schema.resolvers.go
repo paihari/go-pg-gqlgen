@@ -779,14 +779,14 @@ func (r *mutationResolver) CreateOciCompartment(ctx context.Context, input model
 
 // CreateOciVcn is the resolver for the createOciVcn field.
 func (r *mutationResolver) CreateOciVcn(ctx context.Context, input model.NewOciVcn) (*model.OciVcn, error) {
-	
-	ociId := ocicompose.CreateOciVcn(input.CompartmentID, input.Name, input.Description)
+	ociId := ocicompose.CreateOciVcn(input.CompartmentID, input.Name, input.Description, input.CidrBlock)
 
 	vcn := model.OciVcn{
-		Name:                input.Name,
-		Description:         input.Description,
+		Name:          input.Name,
+		Description:   input.Description,
 		CompartmentID: input.CompartmentID,
-		OcID:                ociId,
+		OcID:          ociId,
+		CidrBlock: input.CidrBlock,
 	}
 	connStr := os.Getenv("DB_URL")
 	opt, err := pg.ParseURL(connStr)
