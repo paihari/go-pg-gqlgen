@@ -2,6 +2,7 @@
 
 Functionalities
 - Create a full stack of AWS Resources from VPC to Instances to host Ubuntu Server
+- Programatic Creation of Cloud Resources
 - Automatically Create GraphQL schema for the underlying Database
 - ORM Representation of the Database, to be used in Middleware GO
 - GraphQL Playground to Create Cloud Resources and Store information in PG Database
