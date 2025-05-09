@@ -1,4 +1,4 @@
-# ☁️ go-pg-gqlgen – Full-Stack Multi-Cloud Infra-as-Code + GraphQL API
+# ☁️ go-pg-gqlgen – Full-Stack Multi-Cloud Infra-as-Code + GraphQL API 
 
 This project is a **multi-cloud infrastructure orchestration and management backend** built with:
 
